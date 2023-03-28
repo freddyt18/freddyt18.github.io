@@ -5,7 +5,10 @@ RUN apt-get update && apt-get install -y \
     sudo \
     python3 \
     python3-pip \
-    openssh-server
+    openssh-server \
+    git \
+    build-essential \
+    curl
 
 # Add a new user with sudo privileges
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
