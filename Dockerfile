@@ -1,5 +1,9 @@
 FROM ubuntu:latest
 
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Kolkata
+
 # Update and install packages
 RUN apt-get update && apt-get install -y \
     sudo \
