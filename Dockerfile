@@ -28,6 +28,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Add a new user with sudo privileges
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
+# Set the default shell for the docker user to /bin/bash
+RUN chsh -s /bin/bash docker
+
 # Configure sshd
 RUN mkdir /var/run/sshd
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -37,5 +40,5 @@ RUN sed 's@session\\s*required\\s*pam_loginuid.so@session optional pam_loginuid.
 
 EXPOSE 22
 
-# Start a bash shell and ssh server when connecting to the container
-CMD /usr/sbin/sshd -D & /bin/bash
+# Start sshd and a bash shell when connecting to the container
+CMD /usr/sbin/sshd -D && /bin/bash
