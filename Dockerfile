@@ -10,6 +10,10 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     curl
 
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
+
 # Add a new user with sudo privileges
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
