@@ -8,11 +8,18 @@ RUN apt-get update && apt-get install -y \
     openssh-server \
     git \
     build-essential \
-    curl
+    curl \
+    command-not-found
 
 # Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
+
+# Install PHP
+RUN apt-get install -y php
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Add a new user with sudo privileges
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
@@ -26,3 +33,6 @@ RUN sed 's@session\\s*required\\s*pam_loginuid.so@session optional pam_loginuid.
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+# Start a bash shell when connecting to the container
+CMD ["/bin/bash"]
