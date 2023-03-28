@@ -36,7 +36,6 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 RUN sed 's@session\\s*required\\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
 
-# Start a bash shell when connecting to the container
-CMD ["/bin/bash"]
+# Start a bash shell and ssh server when connecting to the container
+CMD ["/usr/sbin/sshd", "-D", "&", "/bin/bash"]
