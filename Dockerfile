@@ -38,4 +38,4 @@ RUN sed 's@session\\s*required\\s*pam_loginuid.so@session optional pam_loginuid.
 EXPOSE 22
 
 # Start a bash shell and ssh server when connecting to the container
-CMD ["/usr/sbin/sshd", "-D", "&", "/bin/bash"]
+CMD /usr/sbin/sshd -D & /bin/bash
