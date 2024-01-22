@@ -8,7 +8,7 @@
 
     /* Color */
         /* Main Color */
-        --hue-color: 220;
+        --hue-color: 243;
 
         /* HSL color */
         --first-color: hsl(var(--hue-color), 69%, 61%);
@@ -328,7 +328,8 @@
         fill: var(--first-color);
     }
     .home__blob-img {
-        width: 170px;
+        transition: opacity 1s ease-in-out;
+        width: 200px;
         
     }
 
