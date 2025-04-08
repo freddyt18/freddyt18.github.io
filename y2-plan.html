@@ -213,8 +213,132 @@
         font-size: 0.9rem;
       }
     }
+
+    /************ GLOBAL NAV BAR ************/
+.global-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #004080;  /* or any color that fits your theme */
+  color: #fff;
+  padding: 0.75rem 1rem;
+  position: relative;
+}
+
+/* LOGO / SITE TITLE */
+.global-nav .nav-logo .logo-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* HAMBURGER ICON (hidden by default on desktop) */
+.nav-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* THE NAV LINKS */
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: background 0.3s;
+  display: block;
+  border-radius: 4px;
+}
+
+.nav-links li a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Mobile-friendly toggle. On small screens, we show hamburger & hide nav. */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block; /* show the hamburger in mobile view */
+  }
+  
+  /* Hide the nav by default on mobile */
+  .nav-links {
+    position: absolute;
+    top: 60px;        /* just under the header bar */
+    right: 0;
+    background: #004080;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;    /* collapsed */
+    transition: max-height 0.4s ease;
+  }
+  
+  .nav-links ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0; /* no gap if you want them stacked snugly */
+  }
+  
+  /* Each menu link takes full width in mobile mode */
+  .nav-links li a {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  
+  /* When 'active' is toggled, the menu expands downwards */
+  .nav-links.active {
+    max-height: 300px; /* or enough to fit all items */
+  }
+}
+
   </style>
 </head>
+  <header class="global-nav">
+    <!-- LOGO / SITE TITLE -->
+    <div class="nav-logo">
+      <!-- For a simple text, or replace with <img src="..." alt="logo" /> if you have a logo -->
+      <a href="" class="logo-link">Technical Game Producer Course</a>
+    </div>
+  
+    <!-- HAMBURGER (mobile only) -->
+    <div class="nav-toggle" id="navToggle">
+      &#9776; <!-- or <i class="fas fa-bars"></i> if you use FontAwesome -->
+    </div>
+  
+    <!-- NAVIGATION LINKS -->
+    <nav class="nav-links" id="navLinks">
+      <ul>
+        <!-- Link to plan.html -->
+        <li><a href="https://info.keopitou.me/plan.html">Year 1</a></li>
+        <!-- Link to y2-plan.html -->
+        <li><a href="https://info.keopitou.me/y2-plan.html">Year 2</a></li>
+        <!-- Future expansions: add more <li><a></a></li> items here -->
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Minimal JS for toggling the nav on mobile -->
+  <script>
+    document.getElementById('navToggle').addEventListener('click', function () {
+      var navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+  
+  
+  <!-- Minimal JS for toggling the nav on mobile -->
+  <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+      var navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('active');
+    });
+  </script>  
 <body>
   <div class="container">
     <h1>Year 2 – Technical Game Producer Track</h1>

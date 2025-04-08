@@ -1,1519 +1,1544 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Self-Study Schedule Overview (With Modern Styling & Animations)</title>
-
-    <style>
-      /* Basic Reset */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-    
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background: #f7f7f7;
-        color: #333;
-      }
-      h1, h2 {
-        text-align: center;
-        margin-bottom: 10px;
-      }
-      .header-note {
-        text-align: center;
-        margin: 10px auto 30px auto;
-        max-width: 90%;
-        color: #555;
-        line-height: 1.5;
-      }
-    
-      /* Main Table Styles */
-      table {
-        border-collapse: collapse;
-        margin: 0 auto 30px auto;
-        width: 90%;
-        background: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      table:hover {
-        transform: scale(1.02);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      }
-      th, td {
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        vertical-align: top;
-        transition: background 0.3s ease;
-      }
-      th {
-        background: #004080;
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 14px;
-        letter-spacing: 1px;
-      }
-      tr:nth-child(even) td {
-        background: #f9f9f9;
-      }
-      tr:hover td {
-        background: #f1faff;
-      }
-    
-      .module-title {
-        font-weight: bold;
-        font-size: 1.1em;
-        color: #004080;
-      }
-      .timeline {
-        font-weight: bold;
-        color: #008040;
-      }
-      .activities {
-        line-height: 1.6;
-      }
-      .outcome {
-        color: #008040;
-        font-weight: bold;
-      }
-    
-      /* Details Sections */
-      details {
-        margin: 0 auto 30px auto;
-        width: 90%;
-        background: #fff;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-        padding: 1em;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        overflow: hidden;
-        position: relative;
-        transition: box-shadow 0.3s ease;
-      }
-      details:hover {
-        box-shadow: 0 3px 7px rgba(0,0,0,0.2);
-      }
-    
-      /* Animate opening of details with a fade & slide-down effect */
-      details[open] > * {
-        animation: fadeSlideDown 0.4s ease forwards;
-        transform-origin: top;
-      }
-      @keyframes fadeSlideDown {
-        0% {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    
-      details table {
-        width: 100%;
-        margin: 15px auto 0 auto;
-        box-shadow: none;
-        border-radius: 4px;
-        overflow: hidden;
-      }
-      details th {
-        background: #222;
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 13px;
-        letter-spacing: 1px;
-      }
-      details td, details th {
-        border: 1px solid #ccc;
-      }
-    
-      details summary {
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1.05em;
-        margin-bottom: 10px;
-        color: #004080;
-        outline: none; /* remove focus outline in some browsers */
-        transition: color 0.2s ease;
-        list-style: none;
-        display: flex;
-        align-items: center;
-      }
-      details summary:hover {
-        color: #0066cc;
-      }
-    
-      /* Arrow rotation with a subtle bounce */
-      details summary::before {
-        content: "►";
-        display: inline-block;
-        margin-right: 0.5em;
-        transform: rotate(0deg);
-        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-      }
-      details[open] summary::before {
-        content: "▼";
-        transform: rotate(0deg) scale(1.1);
-      }
-    
-      .subtable-head {
-        margin-top: 0;
-      }
-    
-      /* Minor improvements for smaller screens */
-      @media (max-width: 800px) {
-        table, tr, th, td {
-          font-size: 0.9em;
-        }
-        details {
-          font-size: 0.9em;
-        }
-      }
-    </style>
-
   <meta charset="UTF-8" />
-  <title>Self-Study Schedule Overview (With All Detailed Modules)</title>
+  <title>Self-Study Schedule Overview (Enhanced Minimalist)</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f7f7f7;
+    /* ---------------------------- RESET & BASE STYLES ---------------------------- */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2); /* subtle gradient */
       color: #333;
+      line-height: 1.4;
     }
-    h1, h2 {
+
+    /* Container to center the content and set max width */
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0 40px;
+    }
+
+    h1 {
       text-align: center;
-      margin-bottom: 10px;
-    }
-    .header-note {
-      text-align: center;
-      margin: 10px auto 30px auto;
-      max-width: 90%;
-      color: #555;
-    }
-    table {
-      border-collapse: collapse;
-      margin: 0 auto 30px auto;
-      width: 90%;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
-    th, td {
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      vertical-align: top;
-    }
-    th {
-      background: #004080;
-      color: #fff;
-      text-transform: uppercase;
-      font-size: 14px;
+      margin-bottom: 1rem;
+      font-size: 2rem;
       letter-spacing: 1px;
     }
-    tr:nth-child(even) td {
-      background: #f9f9f9;
+
+    .header-note {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      color: #555;
     }
+
+    /* ---------------------------- LAYOUT WRAPPERS ---------------------------- */
+    .layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Side area to display logos, 3D items or any annotated visuals */
+    .side-visual {
+      flex: 1 1 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 250px;
+    }
+
+    .side-visual img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      perspective: 800px; /* for subtle 3D tilt */
+      cursor: pointer;
+    }
+
+    .side-visual img:hover {
+      transform: rotateX(5deg) rotateY(-5deg) scale(1.02);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    /* Main content wrapper for the table */
+    .table-wrapper {
+      flex: 3 1 400px;
+      min-width: 400px;
+    }
+
+    /* ---------------------------- TABLE STYLES ---------------------------- */
+    table {
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    /* Subtle hover scale for the entire table */
+    table:hover {
+      transform: scale(1.001);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #004080;
+      color: #fff;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+
+    tr:hover td {
+      background-color: #f3faff;
+    }
+
     .module-title {
       font-weight: bold;
-      font-size: 1.1em;
       color: #004080;
+      font-size: 1.05rem;
+      line-height: 1.3;
     }
+
     .timeline {
-      font-weight: bold;
       color: #008040;
+      font-weight: bold;
     }
+
     .activities {
       line-height: 1.6;
+      list-style: inside square;
     }
+
     .outcome {
       color: #008040;
       font-weight: bold;
     }
+
+    /* ---------------------------- DETAILS (EXPANDABLE) STYLES ---------------------------- */
     details {
-      margin: 0 auto 30px auto;
-      width: 90%;
+      margin: 20px 0;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-      padding: 1em;
-      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+      padding: 1rem;
+      transition: box-shadow 0.3s ease;
     }
+
+    details:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+
+    /* Animate the content once details are open */
+    details[open] .animate-content {
+      animation: fadeSlideDown 0.4s ease forwards;
+      transform-origin: top;
+    }
+
+    @keyframes fadeSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #004080;
+      outline: none; /* remove focus outline in some browsers */
+      display: flex;
+      align-items: center;
+    }
+
+    details summary::marker {
+      display: none; /* remove default marker in some browsers */
+    }
+
+    /* Custom arrow icon using CSS pseudo-element */
+    details summary::before {
+      content: '►';
+      display: inline-block;
+      margin-right: 0.5em;
+      transition: transform 0.3s ease;
+      font-size: 1rem;
+    }
+
+    details[open] summary::before {
+      content: '▼';
+      transform: rotate(0) scale(1.1);
+    }
+
+    /* Inside each details block: subtable, headings, etc. */
+    .subtable-head {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
     details table {
       width: 100%;
-      margin: 15px auto 0 auto;
+      margin-top: 1rem;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #fff;
       box-shadow: none;
     }
+
     details th {
       background: #222;
       color: #fff;
       text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 1px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
     }
+
     details td, details th {
       border: 1px solid #ccc;
+      padding: 10px;
     }
-    details summary {
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.05em;
-      margin-bottom: 10px;
-      color: #004080;
-      outline: none; /* remove focus outline in some browsers */
-    }
-    .subtable-head {
-      margin-top: 0;
-    }
-    /* Minor improvements for smaller screens */
+
+    /* Responsive tweak */
     @media (max-width: 800px) {
+      .layout {
+        flex-direction: column;
+      }
+      .side-visual, .table-wrapper {
+        flex: 1 1 100%;
+        min-width: auto;
+      }
       table, tr, th, td {
-        font-size: 0.9em;
+        font-size: 0.85rem;
       }
       details {
-        font-size: 0.9em;
+        font-size: 0.9rem;
       }
     }
+
+        /************ GLOBAL NAV BAR ************/
+.global-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #004080;  /* or any color that fits your theme */
+  color: #fff;
+  padding: 0.75rem 1rem;
+  position: relative;
+}
+
+/* LOGO / SITE TITLE */
+.global-nav .nav-logo .logo-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* HAMBURGER ICON (hidden by default on desktop) */
+.nav-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* THE NAV LINKS */
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+  transition: background 0.3s;
+  display: block;
+  border-radius: 4px;
+}
+
+.nav-links li a:hover {
+  background-color: rgba(255,255,255,0.2);
+}
+
+/* Mobile-friendly toggle. On small screens, we show hamburger & hide nav. */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block; /* show the hamburger in mobile view */
+  }
+  
+  /* Hide the nav by default on mobile */
+  .nav-links {
+    position: absolute;
+    top: 60px;        /* just under the header bar */
+    right: 0;
+    background: #004080;
+    width: 100%;
+    overflow: hidden;
+    max-height: 0;    /* collapsed */
+    transition: max-height 0.4s ease;
+  }
+  
+  .nav-links ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0; /* no gap if you want them stacked snugly */
+  }
+  
+  /* Each menu link takes full width in mobile mode */
+  .nav-links li a {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+  }
+  
+  /* When 'active' is toggled, the menu expands downwards */
+  .nav-links.active {
+    max-height: 300px; /* or enough to fit all items */
+  }
+}
   </style>
 </head>
+
+<header class="global-nav">
+  <!-- LOGO / SITE TITLE -->
+  <div class="nav-logo">
+    <!-- For a simple text, or replace with <img src="..." alt="logo" /> if you have a logo -->
+    <a href="" class="logo-link">Technical Game Producer Course</a>
+  </div>
+
+  <!-- HAMBURGER (mobile only) -->
+  <div class="nav-toggle" id="navToggle">
+    &#9776; <!-- or <i class="fas fa-bars"></i> if you use FontAwesome -->
+  </div>
+
+  <!-- NAVIGATION LINKS -->
+  <nav class="nav-links" id="navLinks">
+    <ul>
+      <!-- Link to plan.html -->
+      <li><a href="https://info.keopitou.me/plan.html">Year 1</a></li>
+      <!-- Link to y2-plan.html -->
+      <li><a href="https://info.keopitou.me/y2-plan.html">Year 2</a></li>
+      <!-- Future expansions: add more <li><a></a></li> items here -->
+    </ul>
+  </nav>
+</header>
+
 <body>
+  <div class="container">
+    <!-- Page Title -->
+    <h1>Self-Study Schedule Overview</h1>
 
-<h1>Self-Study Schedule Overview</h1>
-<div class="header-note">
-  This table summarizes an 8-part self-study path to become a Technical Game Producer. 
-  Each row outlines the module's focus, approximate timeline, major activities, and key outcome.
-  <br><br>
-  After each module row, expand the “Detailed Curriculum” section for a more in-depth, week-by-week (or phase-by-phase) breakdown.
-</div>
+    <!-- Intro Text -->
+    <div class="header-note">
+      This table summarizes an 8-part self-study path to become a Technical Game Producer.
+      Each row outlines the module's focus, approximate timeline, major activities, and key outcome.
+      <br /><br />
+      After each module row, expand the “Detailed Curriculum” section for a more in-depth breakdown.
+    </div>
 
-<table>
-  <tr>
-    <th>Module</th>
-    <th>Timeline</th>
-    <th>Focus &amp; Key Topics</th>
-    <th>Activities</th>
-    <th>Outcome</th>
-  </tr>
+    <!-- Layout: side visual (logo/3D items) + table -->
+    <div class="layout">
+      <!-- (Optional) Side Visual or 3D Items, e.g. a logo image:
+      <div class="side-visual">
+        <img
+          src="https://via.placeholder.com/300x400.png?text=Your+3D+Asset+Here"
+          alt="3D or Logo" />
+      </div> 
+      -->
 
-  <!-- MODULE 1: Games 101 -->
-  <tr>
-    <td class="module-title">1. Games 101<br>(Game Literacy &amp; Analysis)</td>
-    <td class="timeline">~8 weeks</td>
-    <td>
-      <ul>
-        <li>History of analog &amp; digital games</li>
-        <li>Critical analysis &amp; taxonomy of genres</li>
-        <li>Foundations: rules, systems, &amp; player experience</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Play classics (Chess, Go, retro video games)</li>
-        <li>Write short critical essays</li>
-        <li>Create a timeline of landmark games</li>
-        <li>Discuss cultural impact &amp; design evolution</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Broad familiarity with game genres &amp; history, 
-      plus the ability to analyze games from multiple angles.
-    </td>
-  </tr>
-  <!-- Detailed Curriculum for Games 101 -->
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Games 101 (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Schedule</h3>
+      <!-- Main Table Wrapper -->
+      <div class="table-wrapper">
         <table>
           <tr>
-            <th>Week Range</th>
+            <th>Module</th>
+            <th>Timeline</th>
             <th>Focus &amp; Key Topics</th>
             <th>Activities</th>
-            <th>Resources</th>
             <th>Outcome</th>
           </tr>
+
+          <!-- MODULE 1: Games 101 -->
           <tr>
-            <td>Weeks 1–2</td>
+            <td class="module-title">1. Games 101<br>(Game Literacy &amp; Analysis)</td>
+            <td class="timeline">~8 weeks</td>
             <td>
               <ul>
-                <li>Foundations of Game Analysis</li>
-                <li>Basic Terminology (mechanics, dynamics, aesthetics)</li>
-                <li>Non-digital games &amp; core systems</li>
+                <li>History of analog &amp; digital games</li>
+                <li>Critical analysis &amp; taxonomy of genres</li>
+                <li>Foundations: rules, systems, &amp; player experience</li>
               </ul>
             </td>
-            <td>
+            <td class="activities">
               <ul>
-                <li>Play board/card games (Chess, Go, Poker)</li>
-                <li>Identify rules, objectives, strategies</li>
-                <li>Watch an intro lecture (e.g., MIT’s “Intro to Game Design”)</li>
-                <li>Write a short reflection analyzing a board game’s design</li>
+                <li>Play classics (Chess, Go, retro video games)</li>
+                <li>Write short critical essays</li>
+                <li>Create a timeline of landmark games</li>
+                <li>Discuss cultural impact &amp; design evolution</li>
               </ul>
             </td>
-            <td>
-              <ul>
-                <li><em>Rules of Play</em> (Salen &amp; Zimmerman)</li>
-                <li>MIT OpenCourseWare / edX</li>
-                <li>Chess.com for analysis</li>
-              </ul>
-            </td>
-            <td>
-              Grasp of fundamental design vocabulary 
-              &amp; ability to articulate basic 
-              game structure in non-digital examples.
+            <td class="outcome">
+              Broad familiarity with game genres &amp; history, plus the ability to analyze games from multiple angles.
             </td>
           </tr>
           <tr>
-            <td>Weeks 3–4</td>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Games 101 (Click to Expand)</summary>
+                <div class="animate-content">
+                  <h3 class="subtable-head">Week-by-Week Schedule</h3>
+                  <table>
+                    <tr>
+                      <th>Week Range</th>
+                      <th>Focus &amp; Key Topics</th>
+                      <th>Activities</th>
+                      <th>Resources</th>
+                      <th>Outcome</th>
+                    </tr>
+                    <tr>
+                      <td>Weeks 1-2</td>
+                      <td>
+                        <ul>
+                          <li>Foundations of Game Analysis</li>
+                          <li>Basic Terminology (mechanics, dynamics, aesthetics)</li>
+                          <li>Non-digital games &amp; core systems</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Play board/card games (Chess, Go, Poker)</li>
+                          <li>Identify rules, objectives, strategies</li>
+                          <li>Watch an intro lecture (e.g., MIT's “Intro to Game Design”)</li>
+                          <li>Write a short reflection analyzing a board game's design</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li><em>Rules of Play</em> (Salen &amp; Zimmerman)</li>
+                          <li>MIT OpenCourseWare / edX</li>
+                          <li>Chess.com for analysis</li>
+                        </ul>
+                      </td>
+                      <td>
+                        Grasp of fundamental design vocabulary &amp; ability to articulate basic game structure in non-digital examples.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Weeks 3-4</td>
+                      <td>
+                        <ul>
+                          <li>History of Video Games</li>
+                          <li>Evolution of genres &amp; platforms</li>
+                          <li>Influential early arcade/console titles</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Play/watch early classics (Space Invaders, Pac-Man)</li>
+                          <li>Create a personal timeline of 10 landmark games</li>
+                          <li>Short essay on tech's influence on design (2D to 3D)</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li><em>The Ultimate History of Video Games</em> (Steven Kent)</li>
+                          <li>Documentaries (<em>High Score</em>, <em>The King of Kong</em>)</li>
+                          <li>GDC Vault historical talks</li>
+                        </ul>
+                      </td>
+                      <td>
+                        Understanding of historical context &amp; how it shaped mechanics, genres, and industry trends.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Weeks 5-6</td>
+                      <td>
+                        <ul>
+                          <li>Critical Play &amp; Genre Analysis</li>
+                          <li>Formal elements vs. experiential elements</li>
+                          <li>Playtesting with a critical lens</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Play 2 games from genres outside your comfort zone</li>
+                          <li>Analyze how mechanics &amp; aesthetics create experience</li>
+                          <li>Write a comparative analysis (e.g., sports vs. narrative)</li>
+                          <li>Watch a GDC talk or read a postmortem on design decisions</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Mary Flanagan's <em>Critical Play</em></li>
+                          <li>Extra Credits YouTube (game design series)</li>
+                          <li>GDC Vault postmortems</li>
+                        </ul>
+                      </td>
+                      <td>
+                        Systematic, analytical mindset for understanding design goals &amp; trade-offs in various genres.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Weeks 7-8</td>
+                      <td>
+                        <ul>
+                          <li>Synthesis &amp; Reflection</li>
+                          <li>Cultural Context &amp; Player Perspectives</li>
+                          <li>Advanced Topics (ethics, representation)</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Revisit a previously analyzed game for new insights</li>
+                          <li>Explore cultural/ethical topics in a specific genre</li>
+                          <li>Final reflective essay: “What Makes Games Meaningful?”</li>
+                          <li>Present or discuss analyses in an online forum or with peers</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Jesper Juul's <em>Half-Real</em></li>
+                          <li><em>A Theory of Fun</em> (Raph Koster)</li>
+                          <li>GameStudies.org for scholarly articles</li>
+                        </ul>
+                      </td>
+                      <td>
+                        Deepened critical insight, examining games' social/cultural dimensions &amp; overall significance.
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 2: Game Design I -->
+          <tr>
+            <td class="module-title">2. Game Design I<br>(Fundamental Design Skills)</td>
+            <td class="timeline">~8 weeks</td>
             <td>
               <ul>
-                <li>History of Video Games</li>
-                <li>Evolution of genres &amp; platforms</li>
-                <li>Influential early arcade/console titles</li>
+                <li>Non-digital game creation</li>
+                <li>Iterative prototyping &amp; playtesting</li>
+                <li>Design documentation &amp; rule balancing</li>
               </ul>
             </td>
-            <td>
+            <td class="activities">
               <ul>
-                <li>Play/watch early classics (Space Invaders, Pac-Man)</li>
-                <li>Create a personal timeline of 10 landmark games</li>
-                <li>Short essay on tech’s influence on design (2D to 3D)</li>
+                <li>Paper prototypes of board/card games</li>
+                <li>Rapid iteration cycles</li>
+                <li>Blind playtesting &amp; feedback loops</li>
+                <li>Simple GDD (Game Design Document)</li>
               </ul>
             </td>
-            <td>
-              <ul>
-                <li><em>The Ultimate History of Video Games</em> (Steven Kent)</li>
-                <li>Documentaries (<em>High Score</em>, <em>The King of Kong</em>)</li>
-                <li>GDC Vault historical talks</li>
-              </ul>
-            </td>
-            <td>
-              Understanding of historical context 
-              &amp; how it shaped mechanics, genres, 
-              and industry trends.
+            <td class="outcome">
+              Iterative design skills, understanding of core mechanics &amp; player-centric development approach.
             </td>
           </tr>
           <tr>
-            <td>Weeks 5–6</td>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Game Design I (Click to Expand)</summary>
+                <div class="animate-content">
+                  <h3 class="subtable-head">Week-by-Week Schedule</h3>
+                  <table>
+                    <tr>
+                      <th>Week Range</th>
+                      <th>Focus &amp; Key Topics</th>
+                      <th>Activities</th>
+                      <th>Resources</th>
+                      <th>Outcome</th>
+                    </tr>
+                    <tr>
+                      <td>Weeks 1-2</td>
+                      <td>
+                        <ul>
+                          <li>Design Foundations &amp; System Thinking</li>
+                          <li>Prototyping with analog tools</li>
+                          <li>Core concepts of rules &amp; play</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Modify a simple game (Tic-Tac-Toe), observe changes</li>
+                          <li>Study formal elements (players, objectives, procedures)</li>
+                          <li>Watch a basic game design tutorial (Coursera, YouTube)</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li><em>The Art of Game Design</em> by Jesse Schell</li>
+                          <li>“Introduction to Game Design” (Coursera)</li>
+                          <li>Ernest Adams, <em>Fundamentals of Game Design</em></li>
+                        </ul>
+                      </td>
+                      <td>
+                        Introduction to iterative design &amp; how rule tweaks affect overall gameplay.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Weeks 3-4</td>
+                      <td>
+                        <ul>
+                          <li>Paper Prototyping &amp; Iteration Cycle</li>
+                          <li>Hands-on creation of a board/card game</li>
+                          <li>Playtesting &amp; feedback</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li>Create a simple board/card prototype from scratch</li>
+                          <li>Conduct at least 2 major iterations based on test feedback</li>
+                          <li>Document rule changes &amp; rationale</li>
+                        </ul>
+                      </td>
+                      <td>
+                        <ul>
+                          <li><em>Challenges for Game Designers</em>, Brenda Romero &amp; Ian Schreiber</li>
+                          <li>Card stock, tokens, dice for physical prototyping</li>
+                        </ul>
+                      </td>
+                      <td>
+                        Practice in rapid prototyping &amp; refining designs through iterative playtests.
+                      </td>
+                    </tr>
+                    <!-- (You can continue additional weeks for Module 2 if desired) -->
+                  </table>
+                </div>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 3: Game Studio I -->
+          <tr>
+            <td class="module-title">3. Game Studio I<br>(Intro to Digital Dev)</td>
+            <td class="timeline">~9 weeks<br>(3 mini-projects)</td>
             <td>
               <ul>
-                <li>Critical Play &amp; Genre Analysis</li>
-                <li>Formal elements vs. experiential elements</li>
-                <li>Playtesting with a critical lens</li>
+                <li>Basic Unity projects</li>
+                <li>Collaboration &amp; version control</li>
+                <li>Rapid prototyping &amp; small game completions</li>
               </ul>
             </td>
-            <td>
+            <td class="activities">
               <ul>
-                <li>Play 2 games from genres outside your comfort zone</li>
-                <li>Analyze how mechanics &amp; aesthetics create experience</li>
-                <li>Write a comparative analysis (e.g., sports vs. narrative)</li>
-                <li>Watch a GDC talk or read a postmortem on design decisions</li>
+                <li>Project 1: Solo (e.g., Pong clone)</li>
+                <li>Project 2: Small team game</li>
+                <li>Project 3: Join a Game Jam or short sprint</li>
+                <li>Use Git/Trello for planning &amp; integration</li>
               </ul>
             </td>
-            <td>
-              <ul>
-                <li>Mary Flanagan’s <em>Critical Play</em></li>
-                <li>Extra Credits YouTube (game design series)</li>
-                <li>GDC Vault postmortems</li>
-              </ul>
-            </td>
-            <td>
-              Systematic, analytical mindset 
-              for understanding design goals 
-              &amp; trade-offs in various genres.
+            <td class="outcome">
+              Understanding the digital pipeline 
+              and experience finishing multiple 
+              small playable prototypes.
             </td>
           </tr>
           <tr>
-            <td>Weeks 7–8</td>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Game Studio I (Click to Expand)</summary>
+                <h3 class="subtable-head">Approx. 9-Week Breakdown</h3>
+                <table>
+                  <tr>
+                    <th>Phase / Week Range</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Project 1<br>(Weeks 1-3)</td>
+                    <td>
+                      <ul>
+                        <li>Solo Development</li>
+                        <li>Unity Basics (C# Scripting, Scenes, Collisions)</li>
+                        <li>First Playable Prototype</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Build a simple game (Pong, 2D shooter) following official Unity tutorials</li>
+                        <li>Implement core gameplay &amp; add 1 custom feature</li>
+                        <li>Write a brief postmortem</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[Unity Learn](https://learn.unity.com/)</li>
+                        <li>Beginner YouTube channels (Brackeys, etc.)</li>
+                        <li>Git for version control (solo practice)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Master basic Unity workflow, 
+                      build confidence in coding &amp; 
+                      produce a playable mini-game alone.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Project 2<br>(Weeks 4-6)</td>
+                    <td>
+                      <ul>
+                        <li>Small Team Collaboration</li>
+                        <li>Task Management (Trello, Git branches)</li>
+                        <li>Enhanced Gameplay Features</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Form a team (2-4 members) or simulate roles</li>
+                        <li>Plan a slightly bigger concept (e.g., platformer with multiple levels)</li>
+                        <li>Integrate frequent builds, maintain scope, hold team check-ins</li>
+                        <li>Final team postmortem &amp; playable release</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[Trello](https://trello.com)</li>
+                        <li>Git / GitHub or other repo hosting</li>
+                        <li>Optional: Discord/Slack for team comms</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Experience in collaborative dev, 
+                      feature scoping, merging code/art 
+                      &amp; producing a more complete game.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Project 3<br>(Weeks 7-9)</td>
+                    <td>
+                      <ul>
+                        <li>Game Jam Simulation or Actual Jam</li>
+                        <li>Intense time constraint</li>
+                        <li>Finish &amp; Polish quickly</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Join a real jam (e.g., Global Game Jam, Ludum Dare) or do a 1-week sprint</li>
+                        <li>Brainstorm around a theme, produce MVP in ~3 days-1 week</li>
+                        <li>Focus on scope-limited, polished gameplay &amp; 1-2 core features</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[Global Game Jam](https://globalgamejam.org/), [Ludum Dare](https://ldjam.com/)</li>
+                        <li>Unity jam templates, quick prototypes</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Rapid dev under pressure; 
+                      final jam game for portfolio 
+                      &amp; strong lessons in scoping &amp; collaboration.
+                    </td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 4: Code Lab 0 -->
+          <tr>
+            <td class="module-title">4. Code Lab 0<br>(Intro to Game Programming)</td>
+            <td class="timeline">~8 weeks</td>
             <td>
               <ul>
-                <li>Synthesis &amp; Reflection</li>
-                <li>Cultural Context &amp; Player Perspectives</li>
-                <li>Advanced Topics (ethics, representation)</li>
+                <li>Fundamental scripting concepts</li>
+                <li>GameMaker (GML) then Unity (C#)</li>
+                <li>Loops, variables, collisions, basic AI</li>
               </ul>
             </td>
+            <td class="activities">
+              <ul>
+                <li>GameMaker tutorials &amp; small prototypes</li>
+                <li>Unity C# scripting (Roll-a-ball, etc.)</li>
+                <li>Debugging &amp; engine familiarity</li>
+              </ul>
+            </td>
+            <td class="outcome">
+              Technical literacy to communicate 
+              with programmers, estimate tasks, 
+              and handle simple coding/bugfixes.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Code Lab 0 (Click to Expand)</summary>
+                <h3 class="subtable-head">Week-by-Week Outline</h3>
+                <table>
+                  <tr>
+                    <th>Week Range</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Weeks 1-2</td>
+                    <td>
+                      <ul>
+                        <li>GameMaker Basics (GML)</li>
+                        <li>Variables, conditionals, collisions</li>
+                        <li>First playable 2D prototype</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Follow official GameMaker tutorial (e.g., a shooter/platformer)</li>
+                        <li>Add custom behavior (e.g., extra enemy type)</li>
+                        <li>Write code comments to clarify logic</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[GameMaker official site](https://gamemaker.io/en)</li>
+                        <li>GML scripting doc</li>
+                        <li>Basic knowledge of 2D collisions</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Familiarity with an accessible 2D engine, 
+                      basic coding constructs, &amp; debugging.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 3-4</td>
+                    <td>
+                      <ul>
+                        <li>Advanced GML features / small expansions</li>
+                        <li>Arrays, loops, data structures</li>
+                        <li>Transition or compare with Unity approach</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Implement more complex logic (e.g., spawn manager, AI patrol)</li>
+                        <li>Study data structures (lists, arrays) for storing entities</li>
+                        <li>Reflect on differences: GML vs. Unity C#</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Official GML docs / tutorials</li>
+                        <li>Community resources (YouTube, forums)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Deeper coding confidence in 2D environment 
+                      &amp; awareness of cross-engine concepts.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 5-6</td>
+                    <td>
+                      <ul>
+                        <li>Unity &amp; C# Scripting Intro</li>
+                        <li>Basic 2D or 3D movement, collisions, prefab usage</li>
+                        <li>OOP concepts (classes, components)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Complete a beginner Unity project (Roll-a-ball, Ruby's Adventure)</li>
+                        <li>Learn collision triggers, transform updates</li>
+                        <li>Use Debug.Log / console for debugging</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[Unity Learn](https://learn.unity.com/)</li>
+                        <li>Visual Studio/VS Code with C#</li>
+                        <li>Basic knowledge of OOP principles</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Understanding of component-based architecture, 
+                      C# scripting, &amp; Unity editor basics.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 7-8</td>
+                    <td>
+                      <ul>
+                        <li>Strengthening &amp; Expanding Skills</li>
+                        <li>Basic AI, data structures in C#</li>
+                        <li>Small personal mini-project</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Create a new small game or remake your GML project in Unity</li>
+                        <li>Add simple AI (enemy chase, random movement)</li>
+                        <li>Document your code &amp; maintain a Git repo</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Unity docs for advanced features</li>
+                        <li>Git/GitHub for version control</li>
+                        <li>Optional: advanced tutorials (Raycast, NavMesh, etc.)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Solidify coding fundamentals, 
+                      produce a standalone mini-project 
+                      showcasing your new skills.
+                    </td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 5: Visual Lab 0 -->
+          <tr>
+            <td class="module-title">5. Visual Lab 0<br>(Fundamentals of Visual Design)</td>
+            <td class="timeline">~8 weeks</td>
             <td>
               <ul>
-                <li>Revisit a previously analyzed game for new insights</li>
-                <li>Explore cultural/ethical topics in a specific genre</li>
-                <li>Final reflective essay: “What Makes Games Meaningful?”</li>
-                <li>Present or discuss analyses in an online forum or with peers</li>
+                <li>Color theory, composition, typography</li>
+                <li>2D asset creation &amp; UI/UX basics</li>
+                <li>Digital art tools usage</li>
               </ul>
             </td>
+            <td class="activities">
+              <ul>
+                <li>Design simple sprites, logos, HUD elements</li>
+                <li>Learn Photoshop/GIMP basics</li>
+                <li>Wireframe and implement basic UI</li>
+                <li>Create short art style guide</li>
+              </ul>
+            </td>
+            <td class="outcome">
+              Foundational art literacy, 
+              ability to produce placeholders, 
+              and communicate effectively with artists.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Visual Lab 0 (Click to Expand)</summary>
+                <h3 class="subtable-head">Week-by-Week Outline</h3>
+                <table>
+                  <tr>
+                    <th>Week Range</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Weeks 1-2</td>
+                    <td>
+                      <ul>
+                        <li>Basic Drawing &amp; Composition</li>
+                        <li>Intro to Digital Tools (Photoshop/GIMP)</li>
+                        <li>Line, shape, light/shadow</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Doodle simple 2D objects (crates, potions) with shading</li>
+                        <li>Explore layers, brushes, selection tools</li>
+                        <li>Learn about rule of thirds &amp; composition basics</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[GIMP.org](https://www.gimp.org/)</li>
+                        <li>[Photoshop tutorials](https://helpx.adobe.com/photoshop/tutorials.html)</li>
+                        <li>Basic drawing videos on YouTube</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Comfort with digital art tool UI, 
+                      fundamental drawing skills &amp; composition awareness.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 3-4</td>
+                    <td>
+                      <ul>
+                        <li>Color Theory &amp; 2D Asset Creation</li>
+                        <li>Sprites, tiles, or simple character art</li>
+                        <li>Palette selection, shading, style consistency</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Create a small sprite sheet (e.g., walk cycle or environment tiles)</li>
+                        <li>Experiment with color palettes for mood</li>
+                        <li>Study at least 1 game's art style &amp; replicate a basic element</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Color Theory references (Adobe Color, coolors.co)</li>
+                        <li>Pixel art tutorials (e.g., [Aseprite](https://www.aseprite.org/))</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Basic proficiency in creating 2D game art 
+                      and color usage for visual clarity &amp; style.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 5-6</td>
+                    <td>
+                      <ul>
+                        <li>UI/UX Design Principles</li>
+                        <li>Wireframing HUDs &amp; Menus</li>
+                        <li>Typography &amp; readability</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Design a mock HUD for an existing or hypothetical game</li>
+                        <li>Try a tool like Figma for UI layout</li>
+                        <li>Focus on font pairing, icon design, color contrast</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Figma or Adobe XD for UI mockups</li>
+                        <li>Typography basics (serif vs. sans-serif, hierarchy)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Ability to plan &amp; prototype 
+                      user interfaces that are clear &amp; consistent.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 7-8</td>
+                    <td>
+                      <ul>
+                        <li>Art Style Guide &amp; Integration</li>
+                        <li>Polishing assets in-engine</li>
+                        <li>Final small project or portfolio piece</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Create a short style guide (color palette, fonts, references)</li>
+                        <li>Import your assets into Unity or another engine</li>
+                        <li>Adjust sprite settings, UI scaling, test performance</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Unity's UI system docs</li>
+                        <li>Optional: Blender or MagicaVoxel if curious about 3D</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Understand how to finalize &amp; 
+                      integrate 2D art assets in-engine, 
+                      plus articulate a cohesive art style.
+                    </td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 6: Game Studio II -->
+          <tr>
+            <td class="module-title">6. Game Studio II<br>(Capstone Team Project)</td>
+            <td class="timeline">~10+ weeks</td>
             <td>
               <ul>
-                <li>Jesper Juul’s <em>Half-Real</em></li>
-                <li><em>A Theory of Fun</em> (Raph Koster)</li>
-                <li>GameStudies.org for scholarly articles</li>
+                <li>Larger scope &amp; deeper collaboration</li>
+                <li>Full production pipeline (Alpha → Beta → Release)</li>
+                <li>Project management &amp; team leadership</li>
               </ul>
             </td>
+            <td class="activities">
+              <ul>
+                <li>Form a bigger team or group</li>
+                <li>Develop a polished game over full cycle</li>
+                <li>Continuous integration, QA, final showcase</li>
+              </ul>
+            </td>
+            <td class="outcome">
+              Realistic production experience,
+              culminating in a substantial 
+              portfolio-ready game.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Game Studio II (Click to Expand)</summary>
+                <h3 class="subtable-head">Phase-by-Phase Breakdown (~10 weeks)</h3>
+                <table>
+                  <tr>
+                    <th>Phase / Weeks</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Phase 1<br>(Weeks 1-2)</td>
+                    <td>
+                      <ul>
+                        <li>Concept &amp; Planning</li>
+                        <li>Scope, MVP, &amp; risk analysis</li>
+                        <li>Project management setup (Git, Trello/Jira)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Brainstorm feasible game ideas, pick one</li>
+                        <li>Define core features &amp; timeline (Alpha, Beta, Release)</li>
+                        <li>Set up version control, decide roles (producer, coder, artist...)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Project management articles (e.g., agile, scrum) or GDC talks</li>
+                        <li>Mentors/peers for feedback on scope</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Clear project vision &amp; roadmap,
+                      well-defined scope to start development 
+                      effectively as a team.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Phase 2<br>(Weeks 3-5)</td>
+                    <td>
+                      <ul>
+                        <li>Prototyping &amp; Vertical Slice</li>
+                        <li>Core mechanics, iterative testing</li>
+                        <li>Early art/audio placeholders</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Implement key gameplay loops quickly</li>
+                        <li>Weekly playtests, gather feedback from team/outsiders</li>
+                        <li>Adapt or cut features that don't work</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Unity/Unreal engine docs</li>
+                        <li>Continuous integration tools (GitHub Actions, etc.)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      A functional prototype demonstrating 
+                      core gameplay &amp; feasibility, 
+                      guiding further content creation.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Phase 3<br>(Weeks 6-8)</td>
+                    <td>
+                      <ul>
+                        <li>Full Production</li>
+                        <li>Content creation (levels, art, audio)</li>
+                        <li>Team coordination, merges, regular QA</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Produce final assets, build out levels</li>
+                        <li>Integrate art &amp; audio, maintain performance</li>
+                        <li>Weekly sprints, track tasks in Trello/Jira</li>
+                        <li>Midpoint external playtest for feedback</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Team communication (Discord, Slack)</li>
+                        <li>Agile sprint planning tutorials</li>
+                      </ul>
+                    </td>
+                    <td>
+                      A near-complete, content-rich build 
+                      ready for polish &amp; final adjustments.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Phase 4<br>(Weeks 9-10)</td>
+                    <td>
+                      <ul>
+                        <li>Polish, QA, &amp; Release</li>
+                        <li>Bug-fixing &amp; performance tuning</li>
+                        <li>Final presentation or showcase</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Thorough QA pass, fix critical issues</li>
+                        <li>Polish visuals, audio mixing, add final touches</li>
+                        <li>Prepare launch build, record trailer, do final postmortem</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>QA test plans or checklists</li>
+                        <li>Video capture/edit tools (OBS, etc.)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      A fully playable, polished game 
+                      for portfolio demonstration, 
+                      reflecting real production experience.
+                    </td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 7: Game Studies I -->
+          <tr>
+            <td class="module-title">7. Game Studies I<br>(Theory &amp; Culture)</td>
+            <td class="timeline">~6-8 weeks<br>(in parallel)</td>
             <td>
-              Deepened critical insight, 
-              examining games’ social/cultural 
-              dimensions &amp; overall significance.
+              <ul>
+                <li>Scholarly research on games</li>
+                <li>Ludology vs. narratology</li>
+                <li>Player psychology, social/cultural impact</li>
+              </ul>
+            </td>
+            <td class="activities">
+              <ul>
+                <li>Read academic texts, <em>Rules of Play</em>, Jesper Juul</li>
+                <li>Write short analytical essays</li>
+                <li>Explore ethics, representation, monetization</li>
+              </ul>
+            </td>
+            <td class="outcome">
+              Deeper intellectual framework 
+              for understanding player motivations, 
+              cultural contexts, &amp; industry issues.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Game Studies I (Click to Expand)</summary>
+                <h3 class="subtable-head">Week-by-Week Outline (~6-8 Weeks)</h3>
+                <table>
+                  <tr>
+                    <th>Week Range</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Weeks 1-2</td>
+                    <td>
+                      <ul>
+                        <li>Defining “Game Studies”</li>
+                        <li>Ludology vs. Narratology</li>
+                        <li>Player Types (Bartle, Yee)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Read Bartle's “Players Who Suit MUDs”</li>
+                        <li>Analyze 1 game's appeal to each player type</li>
+                        <li>Write short reflection: ludology vs. narratology differences</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>GameStudies.org papers</li>
+                        <li>Nick Yee's Quantic Foundry blog</li>
+                        <li>Jesper Juul's <em>Half-Real</em></li>
+                      </ul>
+                    </td>
+                    <td>
+                      Understanding basic academic debates 
+                      &amp; frameworks for categorizing players.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 3-4</td>
+                    <td>
+                      <ul>
+                        <li>Game Psychology &amp; Engagement</li>
+                        <li>Flow, immersion, motivation</li>
+                        <li>Case studies (MMOs, mobile, etc.)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Explore research on flow theory (Csikszentmihalyi) in games</li>
+                        <li>Pick a popular MMO or mobile game, dissect engagement loops</li>
+                        <li>Write a short essay on how reward systems shape player behavior</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li><em>A Theory of Fun</em> (Raph Koster)</li>
+                        <li>Selected GDC talks on player retention</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Ability to connect psychological theories 
+                      with practical design elements 
+                      that keep players engaged.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 5-6</td>
+                    <td>
+                      <ul>
+                        <li>Socio-Cultural Impact of Games</li>
+                        <li>Diversity &amp; representation</li>
+                        <li>Ethical considerations (loot boxes, monetization)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Study controversies around loot boxes &amp; gambling laws</li>
+                        <li>Examine representation in a AAA or indie title</li>
+                        <li>Participate in an online debate or forum discussion</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>IGDA resources on diversity</li>
+                        <li>Industry articles on monetization &amp; regulation</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Deeper insight into games' social responsibility 
+                      &amp; reflection on ethical design choices.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Weeks 7-8 (Optional)</td>
+                    <td>
+                      <ul>
+                        <li>Independent Research Project</li>
+                        <li>Academic Writing &amp; Citations</li>
+                        <li>Presentation of findings</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Pick a specialized topic (e.g., serious games, VR, or eSports culture)</li>
+                        <li>Write a short research paper with references</li>
+                        <li>Present or summarize in a blog post or peer group</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Journals like <em>Game Studies</em>, <em>Eludamos</em></li>
+                        <li>Library/Google Scholar for academic papers</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Practical experience in academic research, 
+                      honing writing &amp; critical thinking 
+                      about a chosen game-related topic.
+                    </td>
+                  </tr>
+                </table>
+              </details>
+            </td>
+          </tr>
+
+          <!-- MODULE 8: Survival Skills -->
+          <tr>
+            <td class="module-title">8. Survival Skills<br>(Career &amp; Industry Prep)</td>
+            <td class="timeline">~4 weeks<br>(concurrent)</td>
+            <td>
+              <ul>
+                <li>Résumé/portfolio building</li>
+                <li>Networking &amp; job search strategies</li>
+                <li>Mock interviews, industry insights</li>
+              </ul>
+            </td>
+            <td class="activities">
+              <ul>
+                <li>Craft a targeted résumé &amp; LinkedIn profile</li>
+                <li>Build an online portfolio (website, itch.io)</li>
+                <li>Attend/watch GDC talks</li>
+                <li>Practice interviews &amp; apply to entry roles</li>
+              </ul>
+            </td>
+            <td class="outcome">
+              Polished professional presence, 
+              clear career goals, 
+              plan to enter the industry.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <details>
+                <summary>Detailed Curriculum for Survival Skills (Click to Expand)</summary>
+                <h3 class="subtable-head">Week-by-Week Outline (~4 weeks)</h3>
+                <table>
+                  <tr>
+                    <th>Week Range</th>
+                    <th>Focus &amp; Key Topics</th>
+                    <th>Activities</th>
+                    <th>Resources</th>
+                    <th>Outcome</th>
+                  </tr>
+                  <tr>
+                    <td>Week 1</td>
+                    <td>
+                      <ul>
+                        <li>Résumé &amp; LinkedIn Setup</li>
+                        <li>Portfolio Outline</li>
+                        <li>Targeting Producer Roles</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Create or refine a 1-page résumé highlighting team projects</li>
+                        <li>Update LinkedIn with project details &amp; a succinct summary</li>
+                        <li>Plan your portfolio structure (sections for projects, about me)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Resume critique sites/tools (Cultivated Culture, etc.)</li>
+                        <li>LinkedIn job search &amp; “Open to Work” settings</li>
+                      </ul>
+                    </td>
+                    <td>
+                      A professional brand that showcases 
+                      your production &amp; technical skills 
+                      in a concise, attractive way.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Week 2</td>
+                    <td>
+                      <ul>
+                        <li>Online Portfolio &amp; Repositories</li>
+                        <li>Showcasing Gameplay &amp; Collaboration</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Build or update a personal site (Wix, GitHub Pages, Squarespace)</li>
+                        <li>Upload playable prototypes to itch.io or share code on GitHub</li>
+                        <li>Record short gameplay clips, add them to your site</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Free website builders, HTML/CSS templates</li>
+                        <li>Screen recording software (OBS, etc.)</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Employers can easily see your work,
+                      confirm your role, 
+                      &amp; understand your game dev process.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Week 3</td>
+                    <td>
+                      <ul>
+                        <li>Networking &amp; Industry Research</li>
+                        <li>Informational Interviews, IGDA/GDC communities</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Join dev communities (IGDA local chapter, Discord servers)</li>
+                        <li>Reach out for informational interviews with producers</li>
+                        <li>Watch GDC Vault talks on production &amp; career tips</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>[IGDA](https://igda.org/), [GDC Vault](https://www.gdcvault.com/)</li>
+                        <li>LinkedIn “connections” approach</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Growing professional network, 
+                      deeper insight into real producer roles, 
+                      possible job leads or mentors.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Week 4</td>
+                    <td>
+                      <ul>
+                        <li>Mock Interviews &amp; Applications</li>
+                        <li>Planning Next Steps</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Practice with common producer interview Q&amp;A (team conflict, scope mgmt.)</li>
+                        <li>Apply to at least 2-3 relevant junior/assoc. producer roles or internships</li>
+                        <li>Map out a Plan B (QA or dev roles) if direct producer jobs are scarce</li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li>Glassdoor/Indeed for sample questions</li>
+                        <li>Friends or mentors for mock interviews</li>
+                      </ul>
+                    </td>
+                    <td>
+                      Confidence and readiness 
+                      to tackle real interviews, 
+                      with a fallback strategy 
+                      for breaking into the industry.
+                    </td>
+                  </tr>
+                </table>
+              </details>
             </td>
           </tr>
         </table>
-      </details>
-    </td>
-  </tr>
-  <!-- End of Games 101 -->
-
-  <!-- MODULE 2: Game Design I -->
-  <tr>
-    <td class="module-title">2. Game Design I<br>(Fundamental Design Skills)</td>
-    <td class="timeline">~8 weeks</td>
-    <td>
-      <ul>
-        <li>Non-digital game creation</li>
-        <li>Iterative prototyping &amp; playtesting</li>
-        <li>Design documentation &amp; rule balancing</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Paper prototypes of board/card games</li>
-        <li>Rapid iteration cycles</li>
-        <li>Blind playtesting &amp; feedback loops</li>
-        <li>Simple GDD (Game Design Document)</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Iterative design skills, 
-      understanding of core mechanics 
-      &amp; player-centric development approach.
-    </td>
-  </tr>
-  <!-- Detailed Curriculum for Game Design I -->
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Game Design I (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Schedule</h3>
-        <table>
-          <tr>
-            <th>Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Weeks 1–2</td>
-            <td>
-              <ul>
-                <li>Design Foundations &amp; System Thinking</li>
-                <li>Prototyping with analog tools</li>
-                <li>Core concepts of rules &amp; play</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Modify a simple game (Tic-Tac-Toe), observe changes</li>
-                <li>Study formal elements (players, objectives, procedures)</li>
-                <li>Watch a basic game design tutorial (Coursera, YouTube)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li><em>The Art of Game Design</em> by Jesse Schell</li>
-                <li>“Introduction to Game Design” (Coursera)</li>
-                <li>Ernest Adams, <em>Fundamentals of Game Design</em></li>
-              </ul>
-            </td>
-            <td>
-              Introduction to iterative design &amp; 
-              how rule tweaks affect overall gameplay.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 3–4</td>
-            <td>
-              <ul>
-                <li>Paper Prototyping &amp; Iteration Cycle</li>
-                <li>Hands-on creation of a board/card game</li>
-                <li>Playtesting &amp; feedback</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Create a simple board/card prototype from scratch</li>
-                <li>Conduct at least 2 major iterations based on test feedback</li>
-                <li>Document rule changes &amp; rationale</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li><em>Challenges for Game Designers</em>, Brenda Romero &amp; Ian Schreiber</li>
-                <li>Card stock, tokens, dice for physical prototyping</li>
-              </ul>
-            </td>
-            <td>
-              Practice in rapid prototyping &amp; 
-              refining designs through iterative playtests.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 5–6</td>
-            <td>
-              <ul>
-                <li>Balancing &amp; Player Experience</li>
-                <li>Applying formal frameworks (MDA)</li>
-                <li>Blind playtesting techniques</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Focus on balance (difficulty, fairness, pacing)</li>
-                <li>Run a blind playtest with new players</li>
-                <li>Iterate to fix design flaws based on feedback</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>MDA Framework references (LeBlanc, Hunicke, Zubek)</li>
-                <li>Playtesting guides, GDC talks</li>
-              </ul>
-            </td>
-            <td>
-              Deeper understanding of balancing mechanics
-              &amp; ensuring player experience 
-              aligns with design goals.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 7–8</td>
-            <td>
-              <ul>
-                <li>Digital Prototyping &amp; Documentation</li>
-                <li>Transition from analog to digital design</li>
-                <li>GDD writing</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Convert one analog design to a simple digital prototype (Twine/Construct)</li>
-                <li>Write a short GDD: core mechanics, objectives, assets needed</li>
-                <li>Optional: small jam or challenge to finalize concept</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Twine (for narrative prototypes)</li>
-                <li>Construct 3 / GameMaker</li>
-                <li>Public “Game Design Document” templates</li>
-              </ul>
-            </td>
-            <td>
-              Ability to document &amp; communicate designs, 
-              bridging analog prototypes into digital 
-              concepts effectively.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-  <!-- End of Game Design I -->
-
-  <!-- MODULE 3: Game Studio I -->
-  <tr>
-    <td class="module-title">3. Game Studio I<br>(Intro to Digital Dev)</td>
-    <td class="timeline">~9 weeks<br>(3 mini-projects)</td>
-    <td>
-      <ul>
-        <li>Basic Unity projects</li>
-        <li>Collaboration &amp; version control</li>
-        <li>Rapid prototyping &amp; small game completions</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Project 1: Solo (e.g., Pong clone)</li>
-        <li>Project 2: Small team game</li>
-        <li>Project 3: Join a Game Jam or short sprint</li>
-        <li>Use Git/Trello for planning &amp; integration</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Understanding the digital pipeline 
-      and experience finishing multiple 
-      small playable prototypes.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Game Studio I (Click to Expand)</summary>
-        <h3 class="subtable-head">Approx. 9-Week Breakdown</h3>
-        <table>
-          <tr>
-            <th>Phase / Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Project 1<br>(Weeks 1–3)</td>
-            <td>
-              <ul>
-                <li>Solo Development</li>
-                <li>Unity Basics (C# Scripting, Scenes, Collisions)</li>
-                <li>First Playable Prototype</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Build a simple game (Pong, 2D shooter) following official Unity tutorials</li>
-                <li>Implement core gameplay &amp; add 1 custom feature</li>
-                <li>Write a brief postmortem</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[Unity Learn](https://learn.unity.com/)</li>
-                <li>Beginner YouTube channels (Brackeys, etc.)</li>
-                <li>Git for version control (solo practice)</li>
-              </ul>
-            </td>
-            <td>
-              Master basic Unity workflow, 
-              build confidence in coding &amp; 
-              produce a playable mini-game alone.
-            </td>
-          </tr>
-          <tr>
-            <td>Project 2<br>(Weeks 4–6)</td>
-            <td>
-              <ul>
-                <li>Small Team Collaboration</li>
-                <li>Task Management (Trello, Git branches)</li>
-                <li>Enhanced Gameplay Features</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Form a team (2–4 members) or simulate roles</li>
-                <li>Plan a slightly bigger concept (e.g., platformer with multiple levels)</li>
-                <li>Integrate frequent builds, maintain scope, hold team check-ins</li>
-                <li>Final team postmortem &amp; playable release</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[Trello](https://trello.com)</li>
-                <li>Git / GitHub or other repo hosting</li>
-                <li>Optional: Discord/Slack for team comms</li>
-              </ul>
-            </td>
-            <td>
-              Experience in collaborative dev, 
-              feature scoping, merging code/art 
-              &amp; producing a more complete game.
-            </td>
-          </tr>
-          <tr>
-            <td>Project 3<br>(Weeks 7–9)</td>
-            <td>
-              <ul>
-                <li>Game Jam Simulation or Actual Jam</li>
-                <li>Intense time constraint</li>
-                <li>Finish &amp; Polish quickly</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Join a real jam (e.g., Global Game Jam, Ludum Dare) or do a 1-week sprint</li>
-                <li>Brainstorm around a theme, produce MVP in ~3 days–1 week</li>
-                <li>Focus on scope-limited, polished gameplay &amp; 1-2 core features</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[Global Game Jam](https://globalgamejam.org/), [Ludum Dare](https://ldjam.com/)</li>
-                <li>Unity jam templates, quick prototypes</li>
-              </ul>
-            </td>
-            <td>
-              Rapid dev under pressure; 
-              final jam game for portfolio 
-              &amp; strong lessons in scoping &amp; collaboration.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-
-  <!-- MODULE 4: Code Lab 0 -->
-  <tr>
-    <td class="module-title">4. Code Lab 0<br>(Intro to Game Programming)</td>
-    <td class="timeline">~8 weeks</td>
-    <td>
-      <ul>
-        <li>Fundamental scripting concepts</li>
-        <li>GameMaker (GML) then Unity (C#)</li>
-        <li>Loops, variables, collisions, basic AI</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>GameMaker tutorials &amp; small prototypes</li>
-        <li>Unity C# scripting (Roll-a-ball, etc.)</li>
-        <li>Debugging &amp; engine familiarity</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Technical literacy to communicate 
-      with programmers, estimate tasks, 
-      and handle simple coding/bugfixes.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Code Lab 0 (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Outline</h3>
-        <table>
-          <tr>
-            <th>Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Weeks 1–2</td>
-            <td>
-              <ul>
-                <li>GameMaker Basics (GML)</li>
-                <li>Variables, conditionals, collisions</li>
-                <li>First playable 2D prototype</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Follow official GameMaker tutorial (e.g., a shooter/platformer)</li>
-                <li>Add custom behavior (e.g., extra enemy type)</li>
-                <li>Write code comments to clarify logic</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[GameMaker official site](https://gamemaker.io/en)</li>
-                <li>GML scripting doc</li>
-                <li>Basic knowledge of 2D collisions</li>
-              </ul>
-            </td>
-            <td>
-              Familiarity with an accessible 2D engine, 
-              basic coding constructs, &amp; debugging.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 3–4</td>
-            <td>
-              <ul>
-                <li>Advanced GML features / small expansions</li>
-                <li>Arrays, loops, data structures</li>
-                <li>Transition or compare with Unity approach</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Implement more complex logic (e.g., spawn manager, AI patrol)</li>
-                <li>Study data structures (lists, arrays) for storing entities</li>
-                <li>Reflect on differences: GML vs. Unity C#</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Official GML docs / tutorials</li>
-                <li>Community resources (YouTube, forums)</li>
-              </ul>
-            </td>
-            <td>
-              Deeper coding confidence in 2D environment 
-              &amp; awareness of cross-engine concepts.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 5–6</td>
-            <td>
-              <ul>
-                <li>Unity &amp; C# Scripting Intro</li>
-                <li>Basic 2D or 3D movement, collisions, prefab usage</li>
-                <li>OOP concepts (classes, components)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Complete a beginner Unity project (Roll-a-ball, Ruby’s Adventure)</li>
-                <li>Learn collision triggers, transform updates</li>
-                <li>Use Debug.Log / console for debugging</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[Unity Learn](https://learn.unity.com/)</li>
-                <li>Visual Studio/VS Code with C#</li>
-                <li>Basic knowledge of OOP principles</li>
-              </ul>
-            </td>
-            <td>
-              Understanding of component-based architecture, 
-              C# scripting, &amp; Unity editor basics.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 7–8</td>
-            <td>
-              <ul>
-                <li>Strengthening &amp; Expanding Skills</li>
-                <li>Basic AI, data structures in C#</li>
-                <li>Small personal mini-project</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Create a new small game or remake your GML project in Unity</li>
-                <li>Add simple AI (enemy chase, random movement)</li>
-                <li>Document your code &amp; maintain a Git repo</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Unity docs for advanced features</li>
-                <li>Git/GitHub for version control</li>
-                <li>Optional: advanced tutorials (Raycast, NavMesh, etc.)</li>
-              </ul>
-            </td>
-            <td>
-              Solidify coding fundamentals, 
-              produce a standalone mini-project 
-              showcasing your new skills.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-
-  <!-- MODULE 5: Visual Lab 0 -->
-  <tr>
-    <td class="module-title">5. Visual Lab 0<br>(Fundamentals of Visual Design)</td>
-    <td class="timeline">~8 weeks</td>
-    <td>
-      <ul>
-        <li>Color theory, composition, typography</li>
-        <li>2D asset creation &amp; UI/UX basics</li>
-        <li>Digital art tools usage</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Design simple sprites, logos, HUD elements</li>
-        <li>Learn Photoshop/GIMP basics</li>
-        <li>Wireframe and implement basic UI</li>
-        <li>Create short art style guide</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Foundational art literacy, 
-      ability to produce placeholders, 
-      and communicate effectively with artists.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Visual Lab 0 (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Outline</h3>
-        <table>
-          <tr>
-            <th>Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Weeks 1–2</td>
-            <td>
-              <ul>
-                <li>Basic Drawing &amp; Composition</li>
-                <li>Intro to Digital Tools (Photoshop/GIMP)</li>
-                <li>Line, shape, light/shadow</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Doodle simple 2D objects (crates, potions) with shading</li>
-                <li>Explore layers, brushes, selection tools</li>
-                <li>Learn about rule of thirds &amp; composition basics</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[GIMP.org](https://www.gimp.org/)</li>
-                <li>[Photoshop tutorials](https://helpx.adobe.com/photoshop/tutorials.html)</li>
-                <li>Basic drawing videos on YouTube</li>
-              </ul>
-            </td>
-            <td>
-              Comfort with digital art tool UI, 
-              fundamental drawing skills &amp; composition awareness.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 3–4</td>
-            <td>
-              <ul>
-                <li>Color Theory &amp; 2D Asset Creation</li>
-                <li>Sprites, tiles, or simple character art</li>
-                <li>Palette selection, shading, style consistency</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Create a small sprite sheet (e.g., walk cycle or environment tiles)</li>
-                <li>Experiment with color palettes for mood</li>
-                <li>Study at least 1 game’s art style &amp; replicate a basic element</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Color Theory references (Adobe Color, coolors.co)</li>
-                <li>Pixel art tutorials (e.g., [Aseprite](https://www.aseprite.org/))</li>
-              </ul>
-            </td>
-            <td>
-              Basic proficiency in creating 2D game art 
-              and color usage for visual clarity &amp; style.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 5–6</td>
-            <td>
-              <ul>
-                <li>UI/UX Design Principles</li>
-                <li>Wireframing HUDs &amp; Menus</li>
-                <li>Typography &amp; readability</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Design a mock HUD for an existing or hypothetical game</li>
-                <li>Try a tool like Figma for UI layout</li>
-                <li>Focus on font pairing, icon design, color contrast</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Figma or Adobe XD for UI mockups</li>
-                <li>Typography basics (serif vs. sans-serif, hierarchy)</li>
-              </ul>
-            </td>
-            <td>
-              Ability to plan &amp; prototype 
-              user interfaces that are clear &amp; consistent.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 7–8</td>
-            <td>
-              <ul>
-                <li>Art Style Guide &amp; Integration</li>
-                <li>Polishing assets in-engine</li>
-                <li>Final small project or portfolio piece</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Create a short style guide (color palette, fonts, references)</li>
-                <li>Import your assets into Unity or another engine</li>
-                <li>Adjust sprite settings, UI scaling, test performance</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Unity’s UI system docs</li>
-                <li>Optional: Blender or MagicaVoxel if curious about 3D</li>
-              </ul>
-            </td>
-            <td>
-              Understand how to finalize &amp; 
-              integrate 2D art assets in-engine, 
-              plus articulate a cohesive art style.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-
-  <!-- MODULE 6: Game Studio II -->
-  <tr>
-    <td class="module-title">6. Game Studio II<br>(Capstone Team Project)</td>
-    <td class="timeline">~10+ weeks</td>
-    <td>
-      <ul>
-        <li>Larger scope &amp; deeper collaboration</li>
-        <li>Full production pipeline (Alpha → Beta → Release)</li>
-        <li>Project management &amp; team leadership</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Form a bigger team or group</li>
-        <li>Develop a polished game over full cycle</li>
-        <li>Continuous integration, QA, final showcase</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Realistic production experience,
-      culminating in a substantial 
-      portfolio-ready game.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Game Studio II (Click to Expand)</summary>
-        <h3 class="subtable-head">Phase-by-Phase Breakdown (~10 weeks)</h3>
-        <table>
-          <tr>
-            <th>Phase / Weeks</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Phase 1<br>(Weeks 1–2)</td>
-            <td>
-              <ul>
-                <li>Concept &amp; Planning</li>
-                <li>Scope, MVP, &amp; risk analysis</li>
-                <li>Project management setup (Git, Trello/Jira)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Brainstorm feasible game ideas, pick one</li>
-                <li>Define core features &amp; timeline (Alpha, Beta, Release)</li>
-                <li>Set up version control, decide roles (producer, coder, artist...)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Project management articles (e.g., agile, scrum) or GDC talks</li>
-                <li>Mentors/peers for feedback on scope</li>
-              </ul>
-            </td>
-            <td>
-              Clear project vision &amp; roadmap,
-              well-defined scope to start development 
-              effectively as a team.
-            </td>
-          </tr>
-          <tr>
-            <td>Phase 2<br>(Weeks 3–5)</td>
-            <td>
-              <ul>
-                <li>Prototyping &amp; Vertical Slice</li>
-                <li>Core mechanics, iterative testing</li>
-                <li>Early art/audio placeholders</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Implement key gameplay loops quickly</li>
-                <li>Weekly playtests, gather feedback from team/outsiders</li>
-                <li>Adapt or cut features that don’t work</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Unity/Unreal engine docs</li>
-                <li>Continuous integration tools (GitHub Actions, etc.)</li>
-              </ul>
-            </td>
-            <td>
-              A functional prototype demonstrating 
-              core gameplay &amp; feasibility, 
-              guiding further content creation.
-            </td>
-          </tr>
-          <tr>
-            <td>Phase 3<br>(Weeks 6–8)</td>
-            <td>
-              <ul>
-                <li>Full Production</li>
-                <li>Content creation (levels, art, audio)</li>
-                <li>Team coordination, merges, regular QA</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Produce final assets, build out levels</li>
-                <li>Integrate art &amp; audio, maintain performance</li>
-                <li>Weekly sprints, track tasks in Trello/Jira</li>
-                <li>Midpoint external playtest for feedback</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Team communication (Discord, Slack)</li>
-                <li>Agile sprint planning tutorials</li>
-              </ul>
-            </td>
-            <td>
-              A near-complete, content-rich build 
-              ready for polish &amp; final adjustments.
-            </td>
-          </tr>
-          <tr>
-            <td>Phase 4<br>(Weeks 9–10)</td>
-            <td>
-              <ul>
-                <li>Polish, QA, &amp; Release</li>
-                <li>Bug-fixing &amp; performance tuning</li>
-                <li>Final presentation or showcase</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Thorough QA pass, fix critical issues</li>
-                <li>Polish visuals, audio mixing, add final touches</li>
-                <li>Prepare launch build, record trailer, do final postmortem</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>QA test plans or checklists</li>
-                <li>Video capture/edit tools (OBS, etc.)</li>
-              </ul>
-            </td>
-            <td>
-              A fully playable, polished game 
-              for portfolio demonstration, 
-              reflecting real production experience.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-
-  <!-- MODULE 7: Game Studies I -->
-  <tr>
-    <td class="module-title">7. Game Studies I<br>(Theory &amp; Culture)</td>
-    <td class="timeline">~6-8 weeks<br>(in parallel)</td>
-    <td>
-      <ul>
-        <li>Scholarly research on games</li>
-        <li>Ludology vs. narratology</li>
-        <li>Player psychology, social/cultural impact</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Read academic texts, <em>Rules of Play</em>, Jesper Juul</li>
-        <li>Write short analytical essays</li>
-        <li>Explore ethics, representation, monetization</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Deeper intellectual framework 
-      for understanding player motivations, 
-      cultural contexts, &amp; industry issues.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Game Studies I (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Outline (~6–8 Weeks)</h3>
-        <table>
-          <tr>
-            <th>Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Weeks 1–2</td>
-            <td>
-              <ul>
-                <li>Defining “Game Studies”</li>
-                <li>Ludology vs. Narratology</li>
-                <li>Player Types (Bartle, Yee)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Read Bartle’s “Players Who Suit MUDs”</li>
-                <li>Analyze 1 game’s appeal to each player type</li>
-                <li>Write short reflection: ludology vs. narratology differences</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>GameStudies.org papers</li>
-                <li>Nick Yee’s Quantic Foundry blog</li>
-                <li>Jesper Juul’s <em>Half-Real</em></li>
-              </ul>
-            </td>
-            <td>
-              Understanding basic academic debates 
-              &amp; frameworks for categorizing players.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 3–4</td>
-            <td>
-              <ul>
-                <li>Game Psychology &amp; Engagement</li>
-                <li>Flow, immersion, motivation</li>
-                <li>Case studies (MMOs, mobile, etc.)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Explore research on flow theory (Csikszentmihalyi) in games</li>
-                <li>Pick a popular MMO or mobile game, dissect engagement loops</li>
-                <li>Write a short essay on how reward systems shape player behavior</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li><em>A Theory of Fun</em> (Raph Koster)</li>
-                <li>Selected GDC talks on player retention</li>
-              </ul>
-            </td>
-            <td>
-              Ability to connect psychological theories 
-              with practical design elements 
-              that keep players engaged.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 5–6</td>
-            <td>
-              <ul>
-                <li>Socio-Cultural Impact of Games</li>
-                <li>Diversity &amp; representation</li>
-                <li>Ethical considerations (loot boxes, monetization)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Study controversies around loot boxes &amp; gambling laws</li>
-                <li>Examine representation in a AAA or indie title</li>
-                <li>Participate in an online debate or forum discussion</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>IGDA resources on diversity</li>
-                <li>Industry articles on monetization &amp; regulation</li>
-              </ul>
-            </td>
-            <td>
-              Deeper insight into games’ social responsibility 
-              &amp; reflection on ethical design choices.
-            </td>
-          </tr>
-          <tr>
-            <td>Weeks 7–8 (Optional)</td>
-            <td>
-              <ul>
-                <li>Independent Research Project</li>
-                <li>Academic Writing &amp; Citations</li>
-                <li>Presentation of findings</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Pick a specialized topic (e.g., serious games, VR, or eSports culture)</li>
-                <li>Write a short research paper with references</li>
-                <li>Present or summarize in a blog post or peer group</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Journals like <em>Game Studies</em>, <em>Eludamos</em></li>
-                <li>Library/Google Scholar for academic papers</li>
-              </ul>
-            </td>
-            <td>
-              Practical experience in academic research, 
-              honing writing &amp; critical thinking 
-              about a chosen game-related topic.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-
-  <!-- MODULE 8: Survival Skills -->
-  <tr>
-    <td class="module-title">8. Survival Skills<br>(Career &amp; Industry Prep)</td>
-    <td class="timeline">~4 weeks<br>(concurrent)</td>
-    <td>
-      <ul>
-        <li>Résumé/portfolio building</li>
-        <li>Networking &amp; job search strategies</li>
-        <li>Mock interviews, industry insights</li>
-      </ul>
-    </td>
-    <td class="activities">
-      <ul>
-        <li>Craft a targeted résumé &amp; LinkedIn profile</li>
-        <li>Build an online portfolio (website, itch.io)</li>
-        <li>Attend/watch GDC talks</li>
-        <li>Practice interviews &amp; apply to entry roles</li>
-      </ul>
-    </td>
-    <td class="outcome">
-      Polished professional presence, 
-      clear career goals, 
-      plan to enter the industry.
-    </td>
-  </tr>
-  <tr>
-    <td colspan="5">
-      <details>
-        <summary>Detailed Curriculum for Survival Skills (Click to Expand)</summary>
-        <h3 class="subtable-head">Week-by-Week Outline (~4 weeks)</h3>
-        <table>
-          <tr>
-            <th>Week Range</th>
-            <th>Focus &amp; Key Topics</th>
-            <th>Activities</th>
-            <th>Resources</th>
-            <th>Outcome</th>
-          </tr>
-          <tr>
-            <td>Week 1</td>
-            <td>
-              <ul>
-                <li>Résumé &amp; LinkedIn Setup</li>
-                <li>Portfolio Outline</li>
-                <li>Targeting Producer Roles</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Create or refine a 1-page résumé highlighting team projects</li>
-                <li>Update LinkedIn with project details &amp; a succinct summary</li>
-                <li>Plan your portfolio structure (sections for projects, about me)</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Resume critique sites/tools (Cultivated Culture, etc.)</li>
-                <li>LinkedIn job search &amp; “Open to Work” settings</li>
-              </ul>
-            </td>
-            <td>
-              A professional brand that showcases 
-              your production &amp; technical skills 
-              in a concise, attractive way.
-            </td>
-          </tr>
-          <tr>
-            <td>Week 2</td>
-            <td>
-              <ul>
-                <li>Online Portfolio &amp; Repositories</li>
-                <li>Showcasing Gameplay &amp; Collaboration</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Build or update a personal site (Wix, GitHub Pages, Squarespace)</li>
-                <li>Upload playable prototypes to itch.io or share code on GitHub</li>
-                <li>Record short gameplay clips, add them to your site</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Free website builders, HTML/CSS templates</li>
-                <li>Screen recording software (OBS, etc.)</li>
-              </ul>
-            </td>
-            <td>
-              Employers can easily see your work,
-              confirm your role, 
-              &amp; understand your game dev process.
-            </td>
-          </tr>
-          <tr>
-            <td>Week 3</td>
-            <td>
-              <ul>
-                <li>Networking &amp; Industry Research</li>
-                <li>Informational Interviews, IGDA/GDC communities</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Join dev communities (IGDA local chapter, Discord servers)</li>
-                <li>Reach out for informational interviews with producers</li>
-                <li>Watch GDC Vault talks on production &amp; career tips</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>[IGDA](https://igda.org/), [GDC Vault](https://www.gdcvault.com/)</li>
-                <li>LinkedIn “connections” approach</li>
-              </ul>
-            </td>
-            <td>
-              Growing professional network, 
-              deeper insight into real producer roles, 
-              possible job leads or mentors.
-            </td>
-          </tr>
-          <tr>
-            <td>Week 4</td>
-            <td>
-              <ul>
-                <li>Mock Interviews &amp; Applications</li>
-                <li>Planning Next Steps</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Practice with common producer interview Q&amp;A (team conflict, scope mgmt.)</li>
-                <li>Apply to at least 2–3 relevant junior/assoc. producer roles or internships</li>
-                <li>Map out a Plan B (QA or dev roles) if direct producer jobs are scarce</li>
-              </ul>
-            </td>
-            <td>
-              <ul>
-                <li>Glassdoor/Indeed for sample questions</li>
-                <li>Friends or mentors for mock interviews</li>
-              </ul>
-            </td>
-            <td>
-              Confidence and readiness 
-              to tackle real interviews, 
-              with a fallback strategy 
-              for breaking into the industry.
-            </td>
-          </tr>
-        </table>
-      </details>
-    </td>
-  </tr>
-</table>
-
+      </div> <!-- /.table-wrapper -->
+    </div> <!-- /.layout -->
+  </div> <!-- /.container -->
 </body>
 </html>
