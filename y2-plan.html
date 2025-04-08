@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Year 2 – Technical Game Producer Track (Minimalist Overview)</title>
+  <style>
+    /* ---------------------------- RESET & BASE STYLES ---------------------------- */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 0 40px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .header-note {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto 30px auto;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* ---------------------------- TABLE WRAPPERS & BASE STYLES ---------------------------- */
+    .table-wrapper {
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-collapse: collapse;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    table:hover {
+      transform: scale(1.001);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #004080;
+      color: #fff;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-align: left;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
+
+    tr:hover td {
+      background-color: #f3faff;
+    }
+
+    .module-title {
+      font-weight: bold;
+      color: #004080;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+
+    .timeline, .credits {
+      color: #008040;
+      font-weight: bold;
+    }
+
+    .activities, .focus-list {
+      line-height: 1.6;
+      list-style: inside square;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .outcome {
+      color: #008040;
+      font-weight: bold;
+    }
+
+    /* ---------------------------- DETAILS (EXPANDABLE) STYLES ---------------------------- */
+    details {
+      margin: 20px 0;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+      padding: 1rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    details:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #004080;
+      outline: none;
+      display: flex;
+      align-items: center;
+    }
+
+    details summary::marker {
+      display: none;
+    }
+
+    details summary::before {
+      content: '►';
+      display: inline-block;
+      margin-right: 0.5em;
+      transition: transform 0.3s ease;
+      font-size: 1rem;
+    }
+
+    details[open] summary::before {
+      content: '▼';
+      transform: rotate(0) scale(1.1);
+    }
+
+    details[open] .animate-content {
+      animation: fadeSlideDown 0.4s ease forwards;
+      transform-origin: top;
+    }
+
+    @keyframes fadeSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-5px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .subtable-head {
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* Minimally style sub-tables inside details */
+    details table {
+      width: 100%;
+      margin-top: 1rem;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #fff;
+      box-shadow: none;
+      border-collapse: collapse;
+    }
+
+    details th {
+      background: #222;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+
+    details td, details th {
+      border: 1px solid #ccc;
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    /* Responsive tweak */
+    @media (max-width: 800px) {
+      table, tr, th, td {
+        font-size: 0.85rem;
+      }
+      details {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Year 2 – Technical Game Producer Track</h1>
+    <div class="header-note">
+      <p>
+        In the second year of the self-study MFA-equivalent program, the focus shifts to 
+        <strong>multiplayer games</strong> and advanced production skills. This page summarizes 
+        the <em>Fall</em> and <em>Spring</em> courses, plus a semester-long <strong>Capstone Project</strong> that culminates in a playable, released multiplayer game. 
+      </p>
+      <p>
+        Each row below outlines the course’s name, key topics, approximate credits, major activities, and final outcome. 
+        Expand the “Detailed Curriculum” section to read about each course’s deeper goals, resources, and relevance for 
+        the <strong>Technical Game Producer</strong> role.
+      </p>
+      <p>
+        At the bottom, you’ll find the suggested <strong>Part-Time Self-Study Schedule</strong> (Weeks 1–30) 
+        that blends all course content with the Capstone milestones.
+      </p>
+    </div>
+
+    <!-- Fall Semester Table -->
+    <h2>Fall Semester – Year 2</h2>
+    <div class="table-wrapper">
+      <table>
+        <tr>
+          <th>Course</th>
+          <th>Credits</th>
+          <th>Key Topics &amp; Focus</th>
+          <th>Activities</th>
+          <th>Outcome</th>
+        </tr>
+        <tr>
+          <td class="module-title">
+            Advanced Game Design II: Narrative &amp; Systems
+          </td>
+          <td class="credits">4</td>
+          <td>
+            <ul class="focus-list">
+              <li>Level design &amp; narrative world building</li>
+              <li>Complex game economies &amp; systems design</li>
+              <li>Iterative design and balancing</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Design advanced prototypes (tabletop &amp; digital)</li>
+              <li>Practice leveling and economy tuning</li>
+              <li>Create system flowcharts &amp; narrative outlines</li>
+              <li>Frequent playtesting &amp; reflection</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            High-level design skill and iterative approach; confidence in balancing gameplay/narrative in multi-layered experiences.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  This course deepens design expertise by focusing on <strong>complex game systems, level design, and narrative design</strong>. 
+                  Students practice advanced iteration and systems thinking. Key assignments include building <em>tabletop prototypes</em> to 
+                  explore economies and balancing, analyzing <strong>environmental storytelling</strong> in professional games, and writing 
+                  short <strong>narrative design docs</strong>. 
+                </p>
+                <p>
+                  <strong>Relevance:</strong> For a Technical Game Producer, it’s crucial to understand design decisions and communicate effectively 
+                  with designers. Mastery of <em>systems design</em> helps guide scoping decisions, ensuring technology and design remain in sync.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> “<em>Rules of Play</em>” (Salen &amp; Zimmerman), advanced GDC talks on systemic design 
+                  &amp; emergent narrative, and <em>Case Studies</em> from AAA or indie projects that highlight design iteration.
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="module-title">Multiplayer Game Development</td>
+          <td class="credits">4</td>
+          <td>
+            <ul class="focus-list">
+              <li>Online multiplayer architectures</li>
+              <li>Unity Netcode or similar networking frameworks</li>
+              <li>Lag compensation, matchmaking, client-server sync</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Rapid local multiplayer prototypes</li>
+              <li>Implementing a client-server demo</li>
+              <li>Midterm: small-scale online game</li>
+              <li>Final: fully networked 2D/3D project</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            Experience designing &amp; coding networked gameplay; one complete online prototype for portfolio.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  Dedicated to <strong>network programming and multiplayer design</strong>, this course covers 
+                  both local co-op/competitive design fundamentals and full online netcode. Students learn 
+                  <em>client-server architecture</em>, <em>authoritative servers</em>, <em>client prediction</em>, 
+                  <em>matchmaking</em>, and more. Half the course emphasizes design (local multiplayer prototypes), 
+                  and the second half focuses on coding a functional <strong>networked game</strong> in Unity or Unreal.
+                </p>
+                <p>
+                  <strong>Relevance:</strong> A Technical Game Producer must grasp the complexities of netcode 
+                  to schedule tasks, plan infrastructure, and <em>anticipate typical pitfalls</em> (lag, scaling, 
+                  cheat prevention). Hands-on coding clarifies networking’s real requirements and trade-offs.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> Official Unity Netcode docs, Gabriel Gambetta’s 
+                  “Fast-Paced Multiplayer” articles, GDC talks on Overwatch and Halo netcode.
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="module-title">Game Production &amp; Leadership</td>
+          <td class="credits">3</td>
+          <td>
+            <ul class="focus-list">
+              <li>Agile/Scrum methodologies for game dev</li>
+              <li>Project milestones &amp; team workflows</li>
+              <li>Version control, build pipelines</li>
+              <li>Leadership &amp; conflict resolution</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Simulate scrum sprints, user stories</li>
+              <li>Practice daily standups &amp; retrospectives</li>
+              <li>Set up CI &amp; version control for group prototypes</li>
+              <li>Team leadership roleplay &amp; case studies</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            Mastery of production pipelines; ability to lead diverse teams &amp; manage schedules, documentation, QA, and more.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  This course focuses on the <strong>organizational and leadership</strong> aspects of game dev. Students learn to break down 
+                  features into <em>Agile backlogs</em>, estimate tasks, schedule sprints, and adapt to changes via iterative planning. 
+                  Tools like Trello/Jira, Git/Perforce are introduced. A heavy emphasis is placed on <strong>team communication</strong>, 
+                  conflict resolution, and building a healthy creative environment.
+                </p>
+                <p>
+                  <strong>Relevance:</strong> The keystone for a <em>Technical Game Producer</em> is 
+                  orchestrating design, art, and tech to meet deadlines. This course provides the frameworks 
+                  (Scrum, Kanban) and best practices to keep projects stable, efficient, and fun to work on.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> “Agile Game Development with Scrum” (Clinton Keith), 
+                  GDC “Producer Bootcamp” talks, real AAA/indie postmortems on production successes and failures.
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="module-title">Capstone Project I: Multiplayer Pre-Production</td>
+          <td class="credits">2</td>
+          <td>
+            <ul class="focus-list">
+              <li>Thesis concept pitch &amp; design doc</li>
+              <li>Multiplayer architecture planning</li>
+              <li>Vertical slice or core prototype</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Define project scope &amp; schedule</li>
+              <li>Create GDD &amp; netcode plan</li>
+              <li>Build vertical slice with partial features</li>
+              <li>Mid-semester pitch &amp; milestone review</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            A solid foundation for the Year 2 “thesis” game; validated core gameplay and feasible tech approach.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  The fall portion of the Capstone focuses on <strong>pre-production</strong> for an ambitious (but 
+                  scoped) multiplayer project. Students (often solo or with minimal help) propose a concept, draft 
+                  a <em>Game Design Document</em>, and implement a <strong>vertical slice</strong>. Emphasis on 
+                  networking feasibility, project scoping, and risk mitigation.
+                </p>
+                <p>
+                  <strong>Relevance:</strong> Pre-production is where <em>technical and creative plans</em> converge. 
+                  Producers who can validate design ideas early save huge resources later. By experiencing real 
+                  “thesis” scoping, the student learns to combine <em>design, programming, and production</em> 
+                  effectively.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> 
+                  - <em>GDC “Vertical Slice” presentations</em><br />
+                  - Online playtest communities (e.g. r/playmygame) to gather user feedback<br />
+                  - Real project milestone templates (e.g. from FIEA or USC capstone outlines)
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Spring Semester Table -->
+    <h2>Spring Semester – Year 2</h2>
+    <div class="table-wrapper">
+      <table>
+        <tr>
+          <th>Course</th>
+          <th>Credits</th>
+          <th>Key Topics &amp; Focus</th>
+          <th>Activities</th>
+          <th>Outcome</th>
+        </tr>
+        <tr>
+          <td class="module-title">Game Publishing &amp; Live Operations</td>
+          <td class="credits">3</td>
+          <td>
+            <ul class="focus-list">
+              <li>Platform publishing &amp; certification</li>
+              <li>Marketing basics &amp; store setup</li>
+              <li>Analytics, server deployment, community management</li>
+              <li>LiveOps strategies &amp; updates</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Build a publishing plan for final game</li>
+              <li>Set up analytics &amp; telemetry</li>
+              <li>Learn server scaling &amp; patch deployment</li>
+              <li>Plan live events or updates</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            Ability to release a game on chosen platforms; knowledge of running a live game, analyzing data, and updating post-launch.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  This course covers final <strong>publishing steps</strong> (store listings, marketing, platform 
+                  requirements) and <strong>LiveOps</strong> (how to maintain and update a game post-release). 
+                  Students learn about <em>analytics, event scheduling, community engagement</em>, and <em>technical 
+                  operations</em> for a live multiplayer title.
+                </p>
+                <p>
+                  <strong>Relevance:</strong> Understanding distribution channels, marketing funnels, and server 
+                  management is vital for a <em>Technical Game Producer</em>. Modern games often run as live services; 
+                  producers who can coordinate updates, handle data-driven decisions, and keep servers stable are 
+                  highly valued.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> 
+                  - GDC talks on <em>LiveOps best practices</em><br />
+                  - Steamworks or console certification docs<br />
+                  - AWS/Azure tutorials on hosting game servers &amp; scaling
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="module-title">Capstone Project II: Production &amp; Launch</td>
+          <td class="credits">4</td>
+          <td>
+            <ul class="focus-list">
+              <li>Full production of the multiplayer “thesis”</li>
+              <li>Alpha/beta testing, polish</li>
+              <li>Public release or open beta</li>
+              <li>Live updates &amp; postmortem</li>
+            </ul>
+          </td>
+          <td class="activities">
+            <ul>
+              <li>Implement remaining features &amp; content</li>
+              <li>Conduct large-scale beta test</li>
+              <li>Release the game publicly &amp; manage first updates</li>
+              <li>Write postmortem &amp; complete final portfolio</li>
+            </ul>
+          </td>
+          <td class="outcome">
+            A fully launched multiplayer game; real-world experience with final deliverables, live patching, &amp; project retrospective.
+          </td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <details>
+              <summary>Detailed Curriculum (Click to Expand)</summary>
+              <div class="animate-content">
+                <p>
+                  The second part of the Capstone sees <strong>full production</strong> and release of the 
+                  student’s multiplayer game. Midway through the semester, they reach a playable <em>beta</em> 
+                  (feature-complete) and invite external testers. They then finalize content, fix bugs, and 
+                  orchestrate a <strong>public launch</strong> or open beta. Finally, they do a post-launch 
+                  <em>LiveOps event</em> (like adding new content), gather data, and <strong>write a postmortem</strong>.
+                </p>
+                <p>
+                  <strong>Relevance:</strong> This is the ultimate test of a <em>Technical Producer’s</em> skillset: 
+                  leading a project through alpha, beta, launch, and live updates. Graduates can demonstrate 
+                  real experience shipping a networked game, from core tech to marketing, QA, and beyond.
+                </p>
+                <p>
+                  <strong>Resources &amp; Examples:</strong> 
+                  - Valve/Steam tutorials for shipping PC builds<br />
+                  - GDC “Launch Day Disasters” talks<br />
+                  - LiveOps frameworks for event-based content updates
+                </p>
+              </div>
+            </details>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- PART-TIME SCHEDULE: WEEKS 1–30 -->
+    <h2>Year 2 Part-Time Schedule (Weeks 1–30)</h2>
+    <p class="header-note" style="text-align:left; max-width:800px;">
+      Below is a suggested 30-week timeline, assuming ~10–15 hours per week in parallel 
+      with Fall and Spring “courses.” It integrates advanced design, multiplayer coding, 
+      production leadership, and the year-long Capstone (thesis) project. 
+      Expand the details to see recommended activities, resources, and testing milestones.
+    </p>
+    <details>
+      <summary>Full 30-Week Timeline (Click to Expand)</summary>
+      <div class="animate-content">
+        <h3 class="subtable-head">Weeks 1–30 Breakdown</h3>
+        <table>
+          <tr>
+            <th>Weeks Range</th>
+            <th>Focus &amp; Key Topics</th>
+            <th>Activities</th>
+            <th>Outcome</th>
+          </tr>
+          <!-- Weeks 1-2 -->
+          <tr>
+            <td>Weeks 1–2</td>
+            <td>
+              <ul class="focus-list">
+                <li>Planning &amp; Concept Development</li>
+                <li>Agile board setup &amp; environment prep</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Refine your multiplayer game concept</li>
+                <li>Pitch doc + initial backlog user stories</li>
+                <li>Set up version control (Git), engine, &amp; basic agile flow</li>
+                <li>Survey advanced design references for inspiration</li>
+              </ul>
+            </td>
+            <td>
+              Project skeleton established: a clear concept &amp; dev environment ready 
+              for full production.
+            </td>
+          </tr>
+
+          <!-- Weeks 3-5 -->
+          <tr>
+            <td>Weeks 3–5</td>
+            <td>
+              <ul class="focus-list">
+                <li>Advanced Design &amp; Pre-Production</li>
+                <li>Paper prototypes, early grey-box tests</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Develop core systems via paper or board-game style prototypes</li>
+                <li>Design narrative + level flow sketches</li>
+                <li>Set up local multiplayer mechanics in engine (non-networked)</li>
+                <li>Optional: join a brief game jam to test new mechanics quickly</li>
+              </ul>
+            </td>
+            <td>
+              Deeper understanding of advanced design concepts; 
+              a functional local prototype with major systems in place.
+            </td>
+          </tr>
+
+          <!-- Weeks 6-8 -->
+          <tr>
+            <td>Weeks 6–8</td>
+            <td>
+              <ul class="focus-list">
+                <li>Networking Fundamentals</li>
+                <li>Implementing online netcode</li>
+                <li>Client-server model, basic replication</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Follow Unity Netcode or Unreal replication tutorials</li>
+                <li>Create a basic online environment (2 clients connect over LAN/Internet)</li>
+                <li>Sync movement &amp; simple actions (pickup, shooting, etc.)</li>
+                <li>Test with a friend remotely for network reliability</li>
+              </ul>
+            </td>
+            <td>
+              First functional <strong>online</strong> multiplayer prototype; 
+              hands-on netcode coding &amp; debugging experience.
+            </td>
+          </tr>
+
+          <!-- Weeks 9-10 -->
+          <tr>
+            <td>Weeks 9–10</td>
+            <td>
+              <ul class="focus-list">
+                <li>Iteration &amp; Mid-Semester Playtest</li>
+                <li>Collecting user feedback</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Polish or add 1–2 new multiplayer features</li>
+                <li>Conduct external playtest with 2–3 testers</li>
+                <li>Gather feedback &amp; bug reports, adjust backlog</li>
+                <li>Study postmortems of small multiplayer indies for context</li>
+              </ul>
+            </td>
+            <td>
+              Validated design + refined netcode from direct user feedback;
+              updated plan for next production steps.
+            </td>
+          </tr>
+
+          <!-- Weeks 11-12 -->
+          <tr>
+            <td>Weeks 11–12</td>
+            <td>
+              <ul class="focus-list">
+                <li>Production &amp; Leadership Simulation</li>
+                <li>Vertical slice milestone</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Finalize a representative “vertical slice” featuring core gameplay</li>
+                <li>Practice agile “retrospectives” &amp; schedule reevaluation</li>
+                <li>Implement or simulate continuous integration (CI) builds</li>
+                <li>Review leadership &amp; scrum best practices in a real scenario</li>
+              </ul>
+            </td>
+            <td>
+              A polished vertical slice demonstrating viability;
+              discipline in version control &amp; agile rituals.
+            </td>
+          </tr>
+
+          <!-- Weeks 13-14 -->
+          <tr>
+            <td>Weeks 13–14</td>
+            <td>
+              <ul class="focus-list">
+                <li>Evaluation &amp; Thesis Jam (End of Fall)</li>
+                <li>Refinement &amp; forward planning</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Play and critique your slice in-depth</li>
+                <li>Draft final production roadmap for next semester</li>
+                <li>Optional: quick experiments (server frameworks, etc.)</li>
+                <li>Explore LiveOps reading to prep for spring</li>
+              </ul>
+            </td>
+            <td>
+              Clear plan for full production in spring; 
+              stable pre-production foundation, minimal technical debt.
+            </td>
+          </tr>
+
+          <!-- Week 15 -->
+          <tr>
+            <td>Week 15</td>
+            <td>
+              <ul class="focus-list">
+                <li>Rest &amp; Prep (Mid-year break)</li>
+                <li>Play research &amp; gather inspiration</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Minimal workload; mental recharge</li>
+                <li>Play similar multiplayer games for design/tech references</li>
+                <li>Jot down new ideas or improvements for your project</li>
+              </ul>
+            </td>
+            <td>
+              Return fresh for spring; new inspirations and a mental break 
+              to avoid burnout.
+            </td>
+          </tr>
+
+          <!-- Weeks 16-18 -->
+          <tr>
+            <td>Weeks 16–18</td>
+            <td>
+              <ul class="focus-list">
+                <li>Full Production Sprint</li>
+                <li>Feature implementation</li>
+                <li>Start server deployment tests</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Build all remaining “must-have” features</li>
+                <li>Integrate better assets (art/audio) if feasible</li>
+                <li>Set up a dedicated or cloud server for real testing</li>
+                <li>Recruit small help if possible (friend/artist) &amp; manage tasks</li>
+              </ul>
+            </td>
+            <td>
+              Core game systems near completion; partial content and 
+              real server environment tested.
+            </td>
+          </tr>
+
+          <!-- Weeks 19-21 -->
+          <tr>
+            <td>Weeks 19–21</td>
+            <td>
+              <ul class="focus-list">
+                <li>Beta Testing &amp; LiveOps Setup</li>
+                <li>Analytics &amp; patch pipeline</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Freeze new features, fix bugs &amp; polish</li>
+                <li>Run external beta test with more participants</li>
+                <li>Integrate analytics or logging, test server load</li>
+                <li>Plan a “first update” or special event post-launch</li>
+              </ul>
+            </td>
+            <td>
+              A stable beta build, feedback-driven improvements, 
+              and prepared framework for live updates.
+            </td>
+          </tr>
+
+          <!-- Weeks 22-24 -->
+          <tr>
+            <td>Weeks 22–24</td>
+            <td>
+              <ul class="focus-list">
+                <li>Final Polishing &amp; Launch Prep</li>
+                <li>Store page, trailer, marketing basics</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Polish UI, finalize design elements</li>
+                <li>Set up store page (Steam/Itch or chosen platform)</li>
+                <li>Produce short trailer or screenshots for marketing</li>
+                <li>Plan launch day tasks &amp; fallback solutions</li>
+              </ul>
+            </td>
+            <td>
+              A near-release candidate build plus 
+              all assets &amp; marketing materials ready for a public launch.
+            </td>
+          </tr>
+
+          <!-- Weeks 25-27 -->
+          <tr>
+            <td>Weeks 25–27</td>
+            <td>
+              <ul class="focus-list">
+                <li>Launch &amp; Post-Launch Ops</li>
+                <li>Community interaction &amp; patching</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Officially launch or open beta to public</li>
+                <li>Respond to issues: hotfix if needed</li>
+                <li>Deliver first update/event (LiveOps style)</li>
+                <li>Update analytics, gather usage data</li>
+              </ul>
+            </td>
+            <td>
+              Real “ship” experience: a public or semi-public release, 
+              live patching, and community management fundamentals.
+            </td>
+          </tr>
+
+          <!-- Weeks 28-30 -->
+          <tr>
+            <td>Weeks 28–30</td>
+            <td>
+              <ul class="focus-list">
+                <li>Finalization &amp; Postmortem</li>
+                <li>Portfolio &amp; Resume updates</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Write final postmortem analysis: successes, failures, lessons</li>
+                <li>Archive project &amp; doc all final builds</li>
+                <li>Update resume/portfolio with Capstone details</li>
+                <li>Optional: do a mock interview or portfolio review</li>
+              </ul>
+            </td>
+            <td>
+              Year 2 complete! A shipped or publicly tested multiplayer game, 
+              full reflection, and job-ready portfolio materials.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </details>
+  </div> <!-- /.container -->
+</body>
+</html>
