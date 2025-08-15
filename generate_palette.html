@@ -235,6 +235,35 @@
                 overflow: hidden
             }
         }
+
+        .canvas-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 8px
+        }
+
+        .btn {
+            cursor: pointer;
+            font-weight: 700;
+            background: var(--accent);
+            color: var(--on-accent);
+            border: 1px solid rgba(0, 0, 0, .25);
+            border-radius: 12px;
+            padding: 10px 14px;
+            min-height: 44px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform .06s ease, filter .12s ease
+        }
+
+        .btn:hover {
+            filter: brightness(1.05)
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
     </style>
 </head>
 
@@ -275,6 +304,7 @@
             <div id="colors" class="colors" aria-live="polite" aria-busy="false"></div>
         </section>
         <section class="card canvas-card">
+            <div class="canvas-toolbar"><button id="copyImg" class="btn" type="button">Copy image</button></div>
             <canvas id="cnv" width="1024" height="1024"></canvas>
         </section>
     </div>
@@ -305,6 +335,8 @@
         function handleWheelPointer(ev) { const wheel = document.getElementById("wheel"); const rect = wheel.getBoundingClientRect(); const cx = rect.left + rect.width / 2; const cy = rect.top + rect.height / 2; const x = ev.clientX - cx; const y = ev.clientY - cy; const R = Math.min(rect.width, rect.height) / 2 - 2; const dist = Math.min(R, Math.hypot(x, y)); let h = Math.atan2(y, x) / (2 * Math.PI); if (h < 0) h += 1; let s = Math.min(1, dist / R); const base = parseHexColor(document.getElementById("hexInput").value.trim()); const [, l] = rgb_to_hls(base[0], base[1], base[2]); const rgb = hls_to_rgb(h, l, s); document.getElementById("hexInput").value = rgbToHex(rgb); scheduleRender(); drawWheel() }
         function bindWheel() { const wheel = document.getElementById("wheel"); let dragging = false; wheel.addEventListener("pointerdown", e => { dragging = true; handleWheelPointer(e) }); wheel.addEventListener("pointermove", e => { if (dragging) handleWheelPointer(e) }); wheel.addEventListener("pointerup", () => { dragging = false }); wheel.addEventListener("pointercancel", () => { dragging = false }); wheel.addEventListener("pointerleave", () => { dragging = false }); window.addEventListener("resize", () => { drawWheel() }); wheel.addEventListener("keydown", e => { if (e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown") { const base = parseHexColor(document.getElementById("hexInput").value.trim()); let [h, l, s] = rgb_to_hls(base[0], base[1], base[2]); if (e.key === "ArrowLeft") h -= .005; if (e.key === "ArrowRight") h += .005; if (e.key === "ArrowDown") s = Math.max(0, s - .01); if (e.key === "ArrowUp") s = Math.min(1, s + .01); if (h < 0) h += 1; if (h > 1) h -= 1; const rgb = hls_to_rgb(h, l, s); document.getElementById("hexInput").value = rgbToHex(rgb); scheduleRender(); drawWheel() } }) }
         ["hexInput", "size", "tile", "radius"].forEach(id => { document.getElementById(id).addEventListener("input", () => { scheduleRender(); drawWheel() }) });
+        async function copyCanvasToClipboard() { const canvas = document.getElementById("cnv"); const mime = "image/png"; const blob = await new Promise(r => canvas.toBlob(r, mime, 1)); if (!blob) { showToast("Copy failed"); return } let perm = "unknown"; if (navigator.permissions && navigator.permissions.query) { try { const p = await navigator.permissions.query({ name: "clipboard-write" }); perm = p.state } catch (e) { perm = "unknown" } } if (navigator.clipboard && window.ClipboardItem) { try { await navigator.clipboard.write([new ClipboardItem({ [mime]: blob })]); showToast("Image copied"); return } catch (e) { } } if (navigator.canShare && navigator.share) { try { const file = new File([blob], "palette.png", { type: mime }); if (navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Palette" }); showToast("Image shared"); return } } catch (e) { } } try { const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "palette.png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); showToast("Image downloaded") } catch (e) { showToast("Copy not supported") } }
+        document.getElementById("copyImg").addEventListener("click", copyCanvasToClipboard);
         renderPalette(); bindWheel(); drawWheel();
     </script>
 </body>
