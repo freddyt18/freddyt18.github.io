@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stateless Palette Generator</title>
+  <title>Stateless Palette Generator — Low‑Latency</title>
   <style>
     :root{--bg:#0b0f14;--bg2:#0f1521;--card:#121821;--text:#e7ecf3;--muted:#9aa5b1;--accent:#3aa3a3;--on-accent:#0b0f14;--shadow:0 10px 30px rgba(0,0,0,.35);--radius:16px}
     *{box-sizing:border-box}
-    html,body{min-height:100%;overflow:auto}
+    html,body{min-height:100%;overflow:auto;scrollbar-width:none;-ms-overflow-style:none}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";background:radial-gradient(1200px 900px at 20% 0%,var(--bg2),var(--bg));color:var(--text);line-height:1.5;transition:background-color .25s ease,color .25s ease}
     .wrap{max-width:1200px;margin:32px auto;padding:0 20px;display:grid;grid-template-columns:1fr 1.2fr;gap:24px}
     .page-title{grid-column:1/-1;font-size:28px;font-weight:800;margin:0 0 8px;letter-spacing:.3px}
@@ -15,15 +15,16 @@
     .controls{display:grid;grid-template-columns:1fr;gap:12px}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     label{font-weight:600;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-    .ctrl{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;color:var(--text);font-size:14px;outline:none;width:100%;transition:background-color .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease}
+    .ctrl{background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;color:var(--text);font-size:14px;outline:none;width:100%;transition:background-color .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease}
     input[type=number].ctrl{appearance:textfield}
     .wheel{display:grid;grid-template-columns:auto;align-items:center}
-    #wheel{width:100%;max-width:240px;aspect-ratio:1/1;border-radius:12px;display:block;background:var(--card);border:1px solid rgba(255,255,255,.12);touch-action:pan-y pinch-zoom}
+    #wheel{width:100%;max-width:220px;aspect-ratio:1/1;border-radius:12px;display:block;background:transparent;border:1px solid rgba(255,255,255,.12);touch-action:none}
     .wheel-wrap{display:flex;align-items:center;gap:12px}
-    .hsl{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
-    .hsl .row3{display:grid;grid-template-columns:1fr;gap:8px}
-    .hsl .range{width:100%}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .ctrl-block{display:grid;gap:6px}
+    .mini{display:grid;grid-template-columns:1fr 80px;align-items:center;gap:8px}
+    input[type=range]{width:100%}
     .canvas-card{position:relative}
     canvas{width:100%;height:auto;display:block;background:#000;border-radius:12px}
     .colors{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-top:10px}
@@ -32,14 +33,20 @@
     .swatch:active{transform:translateY(1px)}
     .dot{width:20px;height:20px;border-radius:6px;border:1px solid rgba(0,0,0,.2)}
     .hex{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px}
-    .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:8px 12px;font-size:12px;box-shadow:var(--shadow);transition:opacity .2s ease,transform .2s ease}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:8px 12px;font-size:12px;box-shadow:var(--shadow);transition:opacity .2s ease,transform .2s ease}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    @media (max-width:900px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.hsl .row3{grid-template-columns:1fr}}
+    @media (max-width:900px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
     @media (prefers-reduced-motion:reduce){.card,.ctrl,body,.swatch,.toast{transition:none!important}}
-    @media (orientation:landscape){html,body{height:100%;overflow:hidden}}
-    .canvas-toolbar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px}
-    .btn{cursor:pointer;font-weight:700;background:var(--accent);color:var(--on-accent);border:1px solid rgba(0,0,0,.25);border-radius:12px;padding:10px 14px;min-height:44px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:transform .06s ease,filter .12s ease}
-    .btn:hover{filter:brightness(1.05)}
+    
+  /* Hide scrollbar visuals but keep scrolling */
+    html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; }
+    html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb { background: transparent; }
+    html::-webkit-scrollbar-track, body::-webkit-scrollbar-track { background: transparent; }
+    body{ -webkit-overflow-scrolling: touch; }
+  /* Canvas toolbar */
+    .canvas-toolbar{display:flex;justify-content:flex-end;gap:8px;margin:4px 0 8px 0}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:var(--card);color:var(--text);font-weight:600;cursor:pointer;box-shadow:var(--shadow)}
+    .btn:hover{background:rgba(255,255,255,.06)}
     .btn:active{transform:translateY(1px)}
   </style>
 </head>
@@ -56,26 +63,82 @@
           <div>
             <label for="wheel">Color wheel</label>
             <div class="wheel-wrap">
-              <canvas id="wheel" width="240" height="240" aria-label="Color wheel" tabindex="0"></canvas>
-            </div>
-            <div class="hsl">
-              <div class="row3">
-                <div>
-                  <label for="hue">Hue</label>
-                  <input id="hue" class="range" type="range" min="0" max="360" step="1" value="0" />
-                </div>
-                <div>
-                  <label for="sat">Saturation</label>
-                  <input id="sat" class="range" type="range" min="0" max="100" step="1" value="100" />
-                </div>
-                <div>
-                  <label for="light">Brightness</label>
-                  <input id="light" class="range" type="range" min="0" max="100" step="1" value="50" />
-                </div>
-              </div>
+              <canvas id="wheel" width="220" height="220" aria-label="Color wheel" tabindex="0"></canvas>
             </div>
           </div>
         </div>
+
+        <!-- Advanced color controls -->
+        <div class="grid-3">
+          <div class="ctrl-block">
+            <label>Hue (HSL)</label>
+            <div class="mini">
+              <input type="range" id="hHsl" min="0" max="360" value="186" />
+              <input type="number" id="hHslN" class="ctrl" min="0" max="360" value="186" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Saturation (HSL)</label>
+            <div class="mini">
+              <input type="range" id="sHsl" min="0" max="100" value="71" />
+              <input type="number" id="sHslN" class="ctrl" min="0" max="100" value="71" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Lightness</label>
+            <div class="mini">
+              <input type="range" id="lHsl" min="0" max="100" value="51" />
+              <input type="number" id="lHslN" class="ctrl" min="0" max="100" value="51" />
+            </div>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="ctrl-block">
+            <label>Hue (HSV)</label>
+            <div class="mini">
+              <input type="range" id="hHsv" min="0" max="360" value="186" />
+              <input type="number" id="hHsvN" class="ctrl" min="0" max="360" value="186" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Saturation (HSV)</label>
+            <div class="mini">
+              <input type="range" id="sHsv" min="0" max="100" value="91" />
+              <input type="number" id="sHsvN" class="ctrl" min="0" max="100" value="91" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Brightness (V)</label>
+            <div class="mini">
+              <input type="range" id="vHsv" min="0" max="100" value="64" />
+              <input type="number" id="vHsvN" class="ctrl" min="0" max="100" value="64" />
+            </div>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="ctrl-block">
+            <label>Red</label>
+            <div class="mini">
+              <input type="range" id="rRgb" min="0" max="255" value="15" />
+              <input type="number" id="rRgbN" class="ctrl" min="0" max="255" value="15" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Green</label>
+            <div class="mini">
+              <input type="range" id="gRgb" min="0" max="255" value="163" />
+              <input type="number" id="gRgbN" class="ctrl" min="0" max="255" value="163" />
+            </div>
+          </div>
+          <div class="ctrl-block">
+            <label>Blue</label>
+            <div class="mini">
+              <input type="range" id="bRgb" min="0" max="255" value="163" />
+              <input type="number" id="bRgbN" class="ctrl" min="0" max="255" value="163" />
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div>
             <label for="size">Canvas size (px)</label>
@@ -96,44 +159,348 @@
       <div id="colors" class="colors" aria-live="polite" aria-busy="false"></div>
     </section>
     <section class="card canvas-card">
-      <div class="canvas-toolbar"><button id="copyImg" class="btn" type="button">Copy image</button></div>
+      <div class="canvas-toolbar">
+        <button id="copyImageBtn" class="btn" aria-label="Copy palette image to clipboard" title="Copy image to clipboard">Copy image</button>
+      </div>
       <canvas id="cnv" width="1024" height="1024"></canvas>
     </section>
   </div>
   <div id="toast" role="status" aria-live="polite" class="toast" hidden></div>
   <script>
+    // ===================
+    // Config (optional streaming)
+    // ===================
+    const WS_URL = ""; // e.g. "wss://your-proxy.example/stream"; leave empty to disable
+    const SEND_INTERVAL_MS = 33; // ~30fps for network only
+    const MAX_BUFFERED = 64 * 1024; // back-pressure threshold
+
+    // ===================
+    // Utilities
+    // ===================
     const HEX_RE=/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
-    function parseHexColor(s){const m=(s+"").trim().match(HEX_RE);if(!m)throw new Error(`Invalid hex color: ${s}. Expected #00aacc or #0ac`);const hex=m[1];const toByte=str=>parseInt(str,16);if(hex.length===3)return[toByte(hex[0]+hex[0]),toByte(hex[1]+hex[1]),toByte(hex[2]+hex[2])];return[toByte(hex.slice(0,2)),toByte(hex.slice(2,4)),toByte(hex.slice(4,6))]}
+    const clamp01 = x => Math.min(1, Math.max(0, x));
+    const clamp = (n,min,max)=> Math.min(max, Math.max(min, n));
+    function parseHexColor(s){
+      const m=(s+"").trim().match(HEX_RE);
+      if(!m) throw new Error(`Invalid hex color: ${s}. Expected #00aacc or #0ac`);
+      const hex=m[1];
+      const toByte=str=>parseInt(str,16);
+      if(hex.length===3) return [toByte(hex[0]+hex[0]),toByte(hex[1]+hex[1]),toByte(hex[2]+hex[2])];
+      return [toByte(hex.slice(0,2)),toByte(hex.slice(2,4)),toByte(hex.slice(4,6))]
+    }
     function rgbToHex([r,g,b]){const h=v=>v.toString(16).padStart(2,"0").toUpperCase();return`#${h(r)}${h(g)}${h(b)}`}
+
+    // HLS <-> RGB (Python-parity)
     function rgb_to_hls(r,g,b){r/=255;g/=255;b/=255;const maxc=Math.max(r,g,b),minc=Math.min(r,g,b);let h=0,s=0;const l=(minc+maxc)/2;if(minc!==maxc){const diff=maxc-minc;s=l<=.5?diff/(maxc+minc):diff/(2-maxc-minc);const rc=(maxc-r)/diff,gc=(maxc-g)/diff,bc=(maxc-b)/diff;if(r===maxc)h=bc-gc;else if(g===maxc)h=2+rc-bc;else h=4+gc-rc;h=(h/6)%1;if(h<0)h+=1}return[h,l,s]}
     function _v(m1,m2,h){h=(h%1+1)%1;if(h<1/6)return m1+(m2-m1)*6*h;if(h<1/2)return m2;if(h<2/3)return m1+(m2-m1)*(2/3-h)*6;return m1}
     function hls_to_rgb(h,l,s){if(s===0){const v=Math.round(l*255);return[v,v,v]}const m2=l<=.5?l*(1+s):l+s-l*s;const m1=2*l-m2;const r=Math.round(_v(m1,m2,h+1/3)*255);const g=Math.round(_v(m1,m2,h)*255);const b=Math.round(_v(m1,m2,h-1/3)*255);return[r,g,b]}
     function adjustLightness(rgb,factor){let[h,l,s]=rgb_to_hls(rgb[0],rgb[1],rgb[2]);if(factor>=0)l=l+(1-l)*factor;else l=l*(1+factor);l=Math.max(0,Math.min(1,l));return hls_to_rgb(h,l,s)}
+
+    // HSV <-> RGB
+    function rgb_to_hsv(r,g,b){ r/=255; g/=255; b/=255; const max=Math.max(r,g,b), min=Math.min(r,g,b); const d=max-min; let h=0; const s=max===0?0:d/max; const v=max; if(d!==0){ switch(max){ case r: h=(g-b)/d+(g<b?6:0); break; case g: h=(b-r)/d+2; break; case b: h=(r-g)/d+4; break;} h/=6; } return [h,s,v]; }
+    function hsv_to_rgb(h,s,v){ const i=Math.floor(h*6); const f=h*6-i; const p=v*(1-s); const q=v*(1-f*s); const t=v*(1-(1-f)*s); let r,g,b; switch(i%6){case 0:r=v;g=t;b=p;break;case 1:r=q;g=v;b=p;break;case 2:r=p;g=v;b=t;break;case 3:r=p;g=q;b=v;break;case 4:r=t;g=p;b=v;break;case 5:r=v;g=p;b=q;break;} return [Math.round(r*255),Math.round(g*255),Math.round(b*255)]; }
+
+    // Palette + layout
     function make_shades_and_tints(base){const light_factors=[.45,.36,.28,.20,.12,.06];const dark_factors=[-.50,-.40,-.30,-.22,-.15,-.08];const out=[];light_factors.forEach((f,i)=>out.push([`light_${i+1}`,adjustLightness(base,f)]));dark_factors.forEach((f,i)=>out.push([`dark_${i+1}`,adjustLightness(base,f)]));return out}
-    function layout_positions(size,sq){const anchors=[[.16,.06],[.30,.06],[.05,.22],[.05,.38],[.90,.07],[.90,.18],[.90,.29],[.90,.66],[.90,.78],[.05,.90],[.17,.90],[.29,.90],[.41,.90],[.62,.90],[.74,.90]];const max=Math.max(0,size-sq);return anchors.map(([ax,ay])=>[Math.round(ax*max),Math.round(ay*max)])}
-    function roundedRect(ctx,x,y,w,h,r){if(!r){ctx.fillRect(x,y,w,h);return}const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.lineTo(x+w-rr,y);ctx.arcTo(x+w,y,x+w,y+rr,rr);ctx.lineTo(x+w,y+h-rr);ctx.arcTo(x+w,y+h,x+w-rr,y+h,rr);ctx.lineTo(x+rr,y+h);ctx.arcTo(x,y+h,x,y+h-rr,rr);ctx.lineTo(x,y+rr);ctx.arcTo(x,y,x+rr,y,rr);ctx.closePath();ctx.fill()}
+    function layout_positions(size,sq){
+      // Keep tiles inside canvas by subtracting tile size from range
+      const anchors=[[.16,.06],[.30,.06],[.05,.22],[.05,.38],[.90,.07],[.90,.18],[.90,.29],[.90,.66],[.90,.78],[.05,.90],[.17,.90],[.29,.90],[.41,.90],[.62,.90],[.74,.90]];
+      const max=Math.max(0,size - sq);
+      return anchors.map(([ax,ay])=>[Math.round(ax*max),Math.round(ay*max)])
+    }
+    const posCache = new Map();
+    const getPositions = (size, sq) => { const k = size+"|"+sq; if(!posCache.has(k)) posCache.set(k, layout_positions(size, sq)); return posCache.get(k); };
+
+    // Theme helpers
     function relativeLuminance([r,g,b]){const srgb=[r,g,b].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*srgb[0]+.7152*srgb[1]+.0722*srgb[2]}
     function chooseTextColor(rgb){const L=relativeLuminance(rgb);const crWhite=(1+.05)/(L+.05);const crBlack=(L+.05)/(.05);return crWhite>=crBlack?"#FFFFFF":"#000000"}
     const setVar=(k,v)=>document.documentElement.style.setProperty(`--${k}`,v);
     const theme=new Proxy({},{set(o,p,val){o[p]=val;const cssKey=String(p).replace(/[A-Z]/g,m=>"-"+m.toLowerCase());setVar(cssKey,val);return true}});
     function applyThemeFromPalette(baseRGB,lights,darks){const bgRGB=darks[0]||baseRGB;const cardRGB=darks[2]||darks[darks.length-1]||baseRGB;const accentRGB=baseRGB;const bg2RGB=adjustLightness(bgRGB,.2);theme.bg=rgbToHex(bgRGB);theme.bg2=rgbToHex(bg2RGB);theme.card=rgbToHex(cardRGB);theme.accent=rgbToHex(accentRGB);theme.text=chooseTextColor(bgRGB);theme.onAccent=chooseTextColor(accentRGB);theme.muted=rgbToHex(lights[4]||lights[3]||lights[0]||baseRGB)}
-    function renderPalette(){const hexInput=document.getElementById("hexInput");const sizeEl=document.getElementById("size");const tileEl=document.getElementById("tile");const radiusEl=document.getElementById("radius");const canvas=document.getElementById("cnv");const colorsPanel=document.getElementById("colors");let baseHex=hexInput.value.trim();try{const baseRGB=parseHexColor(baseHex);const size=Math.max(16,Math.min(4096,parseInt(sizeEl.value||"1024",10)));let sq=Math.max(4,Math.min(1024,parseInt(tileEl.value||"120",10)));sq=Math.min(sq,size);const radius=Math.max(0,Math.min(200,parseInt(radiusEl.value||"0",10)));const dpr=Math.max(1,window.devicePixelRatio||1);if(canvas.width!==size*dpr)canvas.width=size*dpr;if(canvas.height!==size*dpr)canvas.height=size*dpr;const ctx=canvas.getContext("2d");const palette=make_shades_and_tints(baseRGB);const lights=palette.filter(([l])=>l.startsWith("light")).map(([,rgb])=>rgb);const darks=palette.filter(([l])=>l.startsWith("dark")).map(([,rgb])=>rgb);applyThemeFromPalette(baseRGB,lights,darks);const buffer=document.createElement("canvas");buffer.width=size*dpr;buffer.height=size*dpr;const bctx=buffer.getContext("2d");bctx.setTransform(dpr,0,0,dpr,0,0);bctx.fillStyle=rgbToHex(baseRGB);bctx.fillRect(0,0,size,size);const color_order=[lights[2],lights[1],darks[1],darks[2],lights[0],darks[0],darks[3],darks[4],darks[2],lights[3],lights[1],darks[2],darks[4],lights[0],lights[2]];const positions=layout_positions(size,sq);const n=Math.min(positions.length,color_order.length);bctx.save();for(let i=0;i<n;i++){const[x,y]=positions[i];const[r,g,b]=color_order[i];bctx.fillStyle=rgbToHex([r,g,b]);roundedRect(bctx,x,y,sq,sq,radius)}bctx.restore();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(buffer,0,0);const used=[baseRGB,...lights,...darks].map(rgbToHex);colorsPanel.innerHTML=used.map(hx=>`<div class="swatch" title="Click to copy ${hx}"><div class="dot" style="background:${hx}"></div><div class="hex">${hx}</div></div>`).join("");syncHSLFromHex(baseHex)}catch(err){document.getElementById("colors").innerHTML=`<div style="color:#f88">${err.message}</div>`}}
-    function rafDebounce(fn,wait=60){let t=0,raf=0;return(...args)=>{clearTimeout(t);t=setTimeout(()=>{if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>fn(...args))},wait)}}
-    const scheduleRender=rafDebounce(renderPalette,60);
-    function showToast(msg){const toast=document.getElementById("toast");toast.textContent=msg;toast.hidden=false;toast.classList.add("show");clearTimeout(showToast._t);showToast._t=setTimeout(()=>{toast.classList.remove("show")},1100)}
-    document.getElementById("toast").addEventListener("transitionend",e=>{const t=e.currentTarget;if(!t.classList.contains("show"))t.hidden=true});
-    document.getElementById("colors").addEventListener("click",e=>{const sw=e.target.closest(".swatch");if(!sw)return;const hx=sw.querySelector(".hex");const text=hx&&hx.textContent.trim();if(!text)return;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>showToast(`Copied ${text}`)).catch(()=>showToast("Copy failed"))}else{const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");showToast(`Copied ${text}`)}catch{showToast("Copy failed")}document.body.removeChild(ta)}});
-    function drawWheel(){const wheel=document.getElementById("wheel");const ctx=wheel.getContext("2d");const dpr=Math.max(1,window.devicePixelRatio||1);const cssSize=wheel.clientWidth||240;wheel.width=Math.round(cssSize*dpr);wheel.height=Math.round(cssSize*dpr);const cx=wheel.width/2,cy=wheel.height/2;const R=Math.min(cx,cy)-2*dpr;const image=ctx.createImageData(wheel.width,wheel.height);const data=image.data;let base;try{base=parseHexColor(document.getElementById("hexInput").value.trim())}catch{base=[15,163,163]}let[,l0]=rgb_to_hls(base[0],base[1],base[2]);for(let y=0;y<wheel.height;y++){for(let x=0;x<wheel.width;x++){const dx=x-cx,dy=y-cy;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<=R){let ang=Math.atan2(dy,dx);let h=ang/(2*Math.PI);if(h<0)h+=1;let sat=Math.min(1,dist/R);const[rr,gg,bb]=hls_to_rgb(h,l0,sat);const idx=(y*wheel.width+x)*4;data[idx]=rr;data[idx+1]=gg;data[idx+2]=bb;data[idx+3]=255}}}ctx.putImageData(image,0,0);ctx.beginPath();ctx.arc(cx,cy,R,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,.15)';ctx.lineWidth=2*dpr;ctx.stroke();const[bh,bl,bs]=rgb_to_hls(base[0],base[1],base[2]);const ang=bh*2*Math.PI;const rad=bs*R;const px=cx+Math.cos(ang)*rad;const py=cy+Math.sin(ang)*rad;ctx.beginPath();ctx.arc(px,py,5*dpr,0,Math.PI*2);ctx.fillStyle="#000";ctx.globalAlpha=.4;ctx.fill();ctx.globalAlpha=1;ctx.beginPath();ctx.arc(px,py,4*dpr,0,Math.PI*2);ctx.strokeStyle="#fff";ctx.lineWidth=2*dpr;ctx.stroke()}
-    function handleWheelPointer(ev){const wheel=document.getElementById("wheel");const rect=wheel.getBoundingClientRect();const cx=rect.left+rect.width/2;const cy=rect.top+rect.height/2;const x=ev.clientX-cx;const y=ev.clientY-cy;const R=Math.min(rect.width,rect.height)/2-2;const dist=Math.min(R,Math.hypot(x,y));let h=Math.atan2(y,x)/(2*Math.PI);if(h<0)h+=1;let s=Math.min(1,dist/R);const base=parseHexColor(document.getElementById("hexInput").value.trim());const[,l]=rgb_to_hls(base[0],base[1],base[2]);const rgb=hls_to_rgb(h,l,s);document.getElementById("hexInput").value=rgbToHex(rgb);scheduleRender();drawWheel();syncHSLFromHex(rgbToHex(rgb))}
-    function bindWheel(){const wheel=document.getElementById("wheel");let dragging=false;wheel.addEventListener("pointerdown",e=>{dragging=true;handleWheelPointer(e)});wheel.addEventListener("pointermove",e=>{if(dragging)handleWheelPointer(e)});wheel.addEventListener("pointerup",()=>{dragging=false});wheel.addEventListener("pointercancel",()=>{dragging=false});wheel.addEventListener("pointerleave",()=>{dragging=false});window.addEventListener("resize",()=>{drawWheel()});wheel.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"||e.key==="ArrowUp"||e.key==="ArrowDown"){const base=parseHexColor(document.getElementById("hexInput").value.trim());let[h,l,s]=rgb_to_hls(base[0],base[1],base[2]);if(e.key==="ArrowLeft")h-=.005;if(e.key==="ArrowRight")h+=.005;if(e.key==="ArrowDown")s=Math.max(0,s-.01);if(e.key==="ArrowUp")s=Math.min(1,s+.01);if(h<0)h+=1;if(h>1)h-=1;const rgb=hls_to_rgb(h,l,s);document.getElementById("hexInput").value=rgbToHex(rgb);scheduleRender();drawWheel();syncHSLFromHex(rgbToHex(rgb))}})}
-    function syncHSLFromHex(hex){let rgb;try{rgb=parseHexColor(hex)}catch{return}const[h,l,s]=rgb_to_hls(rgb[0],rgb[1],rgb[2]);const hue=document.getElementById("hue");const sat=document.getElementById("sat");const light=document.getElementById("light");hue.value=Math.round(((h%1)+1)%1*360);sat.value=Math.round(s*100);light.value=Math.round(l*100)}
-    function applyHSLSliders(){const hue=document.getElementById("hue");const sat=document.getElementById("sat");const light=document.getElementById("light");const h=(parseFloat(hue.value)||0)/360;const s=Math.max(0,Math.min(1,(parseFloat(sat.value)||0)/100));const l=Math.max(0,Math.min(1,(parseFloat(light.value)||0)/100));const rgb=hls_to_rgb(h,l,s);document.getElementById("hexInput").value=rgbToHex(rgb);scheduleRender();drawWheel()}
-    ["hexInput","size","tile","radius"].forEach(id=>{document.getElementById(id).addEventListener("input",()=>{scheduleRender();drawWheel()})});
-    ["hue","sat","light"].forEach(id=>{document.getElementById(id).addEventListener("input",applyHSLSliders)});
-    async function canvasToBlob(canvas,mime){if(canvas.toBlob){return await new Promise(r=>canvas.toBlob(r,mime));}const dataURL=canvas.toDataURL(mime);const res=await fetch(dataURL);return await res.blob()}
-    async function copyCanvasToClipboard(){const canvas=document.getElementById("cnv");const mime="image/png";let blob;try{blob=await canvasToBlob(canvas,mime)}catch(e){showToast("Copy failed");return}if(!blob){showToast("Copy failed");return}let perm="unknown";if(navigator.permissions&&navigator.permissions.query){try{const p=await navigator.permissions.query({name:"clipboard-write"});perm=p.state}catch(e){perm="unknown"}}if(navigator.clipboard&&window.ClipboardItem){try{await navigator.clipboard.write([new ClipboardItem({[mime]:blob})]);showToast("Image copied");return}catch(e){}}if(navigator.canShare&&navigator.share){try{const file=new File([blob],"palette.png",{type:mime});if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Palette"});showToast("Image shared");return}}catch(e){}}try{const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="palette.png";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);showToast("Image downloaded")}catch(e){showToast("Copy not supported")}}
-    document.getElementById("copyImg").addEventListener("click",copyCanvasToClipboard);
-    renderPalette();bindWheel();drawWheel();
+
+    // ===================
+    // Low-latency render pipeline
+    // ===================
+    const cnv = document.getElementById("cnv");
+    const ctx = cnv.getContext("2d");
+    let buffer = null, bctx = null, bufW = 0, bufH = 0, bufDPR = 1;
+    function ensureBuffer(size, dpr){
+      const w = size * dpr, h = size * dpr;
+      if(!buffer || bufW!==w || bufH!==h){
+        buffer = document.createElement("canvas");
+        buffer.width = w; buffer.height = h;
+        bctx = buffer.getContext("2d");
+        bufW = w; bufH = h; bufDPR = dpr;
+      }
+      bctx.setTransform(dpr,0,0,dpr,0,0);
+      return bctx;
+    }
+
+    // Frame coalescer: at most 1 render per animation frame (no debounce)
+    function rafCoalesce(fn){ let pending=false; return ()=>{ if(pending) return; pending=true; requestAnimationFrame(()=>{ pending=false; fn(); }); }; }
+
+    function renderPalette(){
+      const hexInput=document.getElementById("hexInput");
+      const sizeEl=document.getElementById("size");
+      const tileEl=document.getElementById("tile");
+      const radiusEl=document.getElementById("radius");
+      const colorsPanel=document.getElementById("colors");
+
+      let baseHex=hexInput.value.trim();
+      try{
+        const baseRGB=parseHexColor(baseHex);
+        const size=Math.max(16,Math.min(4096,parseInt(sizeEl.value||"1024",10)));
+        let sq=Math.max(4,Math.min(1024,parseInt(tileEl.value||"120",10))); sq=Math.min(sq,size);
+        const radius=Math.max(0,Math.min(200,parseInt(radiusEl.value||"0",10)));
+        const dpr=Math.max(1,window.devicePixelRatio||1);
+
+        // Resize target canvas resolution if needed
+        if(cnv.width!==size*dpr) cnv.width = size*dpr;
+        if(cnv.height!==size*dpr) cnv.height = size*dpr;
+
+        const bctx = ensureBuffer(size, dpr);
+        // Paint background
+        bctx.fillStyle = rgbToHex(baseRGB);
+        bctx.fillRect(0,0,size,size);
+
+        const palette=make_shades_and_tints(baseRGB);
+        const lights=palette.filter(([l])=>l.startsWith("light")).map(([,rgb])=>rgb);
+        const darks=palette.filter(([l])=>l.startsWith("dark")).map(([,rgb])=>rgb);
+        applyThemeFromPalette(baseRGB,lights,darks);
+
+        const color_order=[lights[2],lights[1],darks[1],darks[2],lights[0],darks[0],darks[3],darks[4],darks[2],lights[3],lights[1],darks[2],darks[4],lights[0],lights[2]];
+        const positions = getPositions(size, sq);
+        const n=Math.min(positions.length,color_order.length);
+        bctx.save();
+        for(let i=0;i<n;i++){
+          const [x,y]=positions[i];
+          const [r,g,b]=color_order[i];
+          bctx.fillStyle=rgbToHex([r,g,b]);
+          roundedRect(bctx,x,y,sq,sq,radius);
+        }
+        bctx.restore();
+
+        // Blit buffer -> screen
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.clearRect(0,0,cnv.width,cnv.height);
+        ctx.drawImage(buffer,0,0);
+
+        // Update swatches (small DOM)
+        const used=[baseRGB,...lights,...darks].map(rgbToHex);
+        colorsPanel.innerHTML = used.map(hx=>`<div class=\"swatch\" title=\"Click to copy ${hx}\"><div class=\"dot\" style=\"background:${hx}\"></div><div class=\"hex\">${hx}</div></div>`).join("");
+
+        // Also sync advanced controls to base hex
+        syncAdvancedControlsFromHex();
+
+        // Stream (non-blocking)
+        streamColor(rgbToHex(baseRGB), /*commit=*/false);
+      }catch(err){
+        document.getElementById("colors").innerHTML=`<div style=\"color:#f88\">${err.message}</div>`
+      }
+    }
+
+    // Rounded rect fill helper
+    function roundedRect(ctx,x,y,w,h,r){if(!r){ctx.fillRect(x,y,w,h);return}const rr=Math.min(r,w/2,h/2);ctx.beginPath();ctx.moveTo(x+rr,y);ctx.lineTo(x+w-rr,y);ctx.arcTo(x+w,y,x+w,y+rr,rr);ctx.lineTo(x+w,y+h-rr);ctx.arcTo(x+w,y+h,x+w-rr,y+h,rr);ctx.lineTo(x+rr,y+h);ctx.arcTo(x,y+h,x,y+h-rr,rr);ctx.lineTo(x,y+rr);ctx.arcTo(x,y,x+rr,y,rr);ctx.closePath();ctx.fill()}
+
+    // Coalesced render entrypoint
+    const scheduleRender = rafCoalesce(renderPalette);
+
+    // ===================
+    // Color wheel (cached image for zero-lag)
+    // ===================
+    const WHEEL_L = 0.5; // fixed L so image can be cached (no regen on color change)
+    const wheel = document.getElementById("wheel");
+    const wctx = wheel.getContext("2d");
+    let wheelImg = null, wheelDPR = 1;
+
+    function buildWheelImage(){
+      const dpr = Math.max(1, window.devicePixelRatio||1);
+      const cssSize = wheel.clientWidth || 220;
+      const W = Math.round(cssSize * dpr), H = W;
+      wheel.width = W; wheel.height = H; wheelDPR = dpr;
+      const off = document.createElement('canvas'); off.width=W; off.height=H; const c = off.getContext('2d');
+      const cx = W/2, cy = H/2; const R = Math.min(cx,cy) - 2*dpr;
+      const image = c.createImageData(W,H); const data = image.data;
+      for(let y=0;y<H;y++){
+        for(let x=0;x<W;x++){
+          const dx=x-cx, dy=y-cy; const dist=Math.sqrt(dx*dx+dy*dy);
+          const idx=(y*W+x)*4;
+          if(dist<=R){ let ang=Math.atan2(dy,dx); let h=ang/(2*Math.PI); if(h<0) h+=1; let s=Math.min(1,dist/R); const [rr,gg,bb]=hls_to_rgb(h,WHEEL_L,s); data[idx]=rr; data[idx+1]=gg; data[idx+2]=bb; data[idx+3]=255; }
+          else{ data[idx]=0; data[idx+1]=0; data[idx+2]=0; data[idx+3]=0; }
+        }
+      }
+      c.putImageData(image,0,0);
+      wheelImg = off;
+    }
+
+    function paintWheel(){
+      if(!wheelImg) buildWheelImage();
+      // draw cached wheel image
+      wctx.clearRect(0,0,wheel.width,wheel.height);
+      wctx.drawImage(wheelImg,0,0);
+      // draw selection dot based on current hex H/S
+      let base = [15,163,163];
+      try{ base = parseHexColor(document.getElementById("hexInput").value.trim()); }catch{}
+      const [h, , s] = rgb_to_hls(base[0],base[1],base[2]);
+      const cx = wheel.width/2, cy = wheel.height/2; const R = Math.min(cx,cy) - 2*wheelDPR;
+      const ang = h * Math.PI*2; const rad = s * R; const px = cx + Math.cos(ang)*rad; const py = cy + Math.sin(ang)*rad;
+      wctx.beginPath(); wctx.arc(px,py,5*wheelDPR,0,Math.PI*2); wctx.fillStyle = "rgba(0,0,0,.4)"; wctx.fill();
+      wctx.beginPath(); wctx.arc(px,py,4*wheelDPR,0,Math.PI*2); wctx.strokeStyle="#fff"; wctx.lineWidth=2*wheelDPR; wctx.stroke();
+    }
+
+    function handleWheelPointer(ev){
+      const rect=wheel.getBoundingClientRect(); const cx=rect.left+rect.width/2; const cy=rect.top+rect.height/2;
+      const x=ev.clientX-cx; const y=ev.clientY-cy; const R=Math.min(rect.width,rect.height)/2-2; const dist=Math.min(R,Math.hypot(x,y));
+      let h=Math.atan2(y,x)/(2*Math.PI); if(h<0) h+=1; let s=Math.min(1,dist/R);
+      const base=parseHexColor(document.getElementById("hexInput").value.trim()); const [,l]=rgb_to_hls(base[0],base[1],base[2]);
+      const rgb=hls_to_rgb(h,l,s);
+      document.getElementById("hexInput").value=rgbToHex(rgb);
+      scheduleRender(); // per-frame render
+      paintWheel();     // redraw dot immediately
+      // also sync advanced sliders now
+      syncAdvancedControlsFromHex();
+    }
+
+    function bindWheel(){
+      let dragging=false;
+      wheel.addEventListener("pointerdown",e=>{ dragging=true; wheel.setPointerCapture(e.pointerId); handleWheelPointer(e); });
+      window.addEventListener("pointermove",e=>{ if(dragging) handleWheelPointer(e); });
+      const endDrag=()=>{ if(dragging){ dragging=false; streamColor(document.getElementById("hexInput").value.trim(), /*commit=*/true);} };
+      window.addEventListener("pointerup",endDrag); window.addEventListener("pointercancel",endDrag);
+      window.addEventListener("resize",()=>{ buildWheelImage(); paintWheel(); });
+      wheel.addEventListener("keydown",e=>{
+        if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown"].includes(e.key)){
+          const base=parseHexColor(document.getElementById("hexInput").value.trim()); let[h,l,s]=rgb_to_hls(base[0],base[1],base[2]);
+          if(e.key==="ArrowLeft") h-=.005; if(e.key==="ArrowRight") h+=.005; if(e.key==="ArrowDown") s=Math.max(0,s-.01); if(e.key==="ArrowUp") s=Math.min(1,s+.01);
+          if(h<0)h+=1; if(h>1)h-=1; const rgb=hls_to_rgb(h,l,s); document.getElementById("hexInput").value=rgbToHex(rgb);
+          scheduleRender(); paintWheel(); syncAdvancedControlsFromHex();
+        }
+      });
+    }
+
+    // ===================
+    // Advanced color controls (HSL, HSV, RGB)
+    // ===================
+    function setPair(idBase, val){ const r=document.getElementById(idBase); const n=document.getElementById(idBase+"N"); if(r) r.value=String(val); if(n) n.value=String(val); }
+
+    function syncAdvancedControlsFromHex(){
+      let rgb; try{ rgb=parseHexColor(document.getElementById('hexInput').value.trim()); }catch{ return; }
+      const [h,l,s] = rgb_to_hls(rgb[0],rgb[1],rgb[2]);
+      const [hh,ss,vv] = rgb_to_hsv(rgb[0],rgb[1],rgb[2]);
+      setPair('hHsl', Math.round(h*360)); setPair('sHsl', Math.round(s*100)); setPair('lHsl', Math.round(l*100));
+      setPair('hHsv', Math.round(hh*360)); setPair('sHsv', Math.round(ss*100)); setPair('vHsv', Math.round(vv*100));
+      setPair('rRgb', rgb[0]); setPair('gRgb', rgb[1]); setPair('bRgb', rgb[2]);
+    }
+
+    function onHslChange(){
+      const h = clamp(parseFloat(document.getElementById('hHsl').value)/360,0,1);
+      const s = clamp(parseFloat(document.getElementById('sHsl').value)/100,0,1);
+      const l = clamp(parseFloat(document.getElementById('lHsl').value)/100,0,1);
+      const rgb = hls_to_rgb(h,l,s);
+      document.getElementById('hexInput').value = rgbToHex(rgb);
+      scheduleRender(); paintWheel(); syncAdvancedControlsFromHex();
+    }
+    function onHsvChange(){
+      const h = clamp(parseFloat(document.getElementById('hHsv').value)/360,0,1);
+      const s = clamp(parseFloat(document.getElementById('sHsv').value)/100,0,1);
+      const v = clamp(parseFloat(document.getElementById('vHsv').value)/100,0,1);
+      const rgb = hsv_to_rgb(h,s,v);
+      document.getElementById('hexInput').value = rgbToHex(rgb);
+      scheduleRender(); paintWheel(); syncAdvancedControlsFromHex();
+    }
+    function onRgbChange(){
+      const r = clamp(parseInt(document.getElementById('rRgb').value||'0',10),0,255);
+      const g = clamp(parseInt(document.getElementById('gRgb').value||'0',10),0,255);
+      const b = clamp(parseInt(document.getElementById('bRgb').value||'0',10),0,255);
+      document.getElementById('hexInput').value = rgbToHex([r,g,b]);
+      scheduleRender(); paintWheel(); syncAdvancedControlsFromHex();
+    }
+
+    function pairBind(baseId, handler){
+      const r = document.getElementById(baseId); const n = document.getElementById(baseId+'N');
+      if(r) r.addEventListener('input', ()=>{ if(n) n.value=r.value; handler(); });
+      if(n) n.addEventListener('input', ()=>{ if(r) r.value=n.value; handler(); });
+    }
+
+    function bindAdvanced(){
+      pairBind('hHsl', onHslChange); pairBind('sHsl', onHslChange); pairBind('lHsl', onHslChange);
+      pairBind('hHsv', onHsvChange); pairBind('sHsv', onHsvChange); pairBind('vHsv', onHsvChange);
+      pairBind('rRgb', onRgbChange); pairBind('gRgb', onRgbChange); pairBind('bRgb', onRgbChange);
+    }
+
+    // ===================
+    // Streaming proxy (optional, non-blocking)
+    // ===================
+    let socket=null, lastSent=0, pendingHex=null;
+    function ensureSocket(){ if(!WS_URL) return null; if(socket && (socket.readyState===1 || socket.readyState===0)) return socket; try{ socket = new WebSocket(WS_URL); }catch(e){ socket=null; } return socket; }
+    function flushPending(){ if(pendingHex){ const hex=pendingHex; pendingHex=null; streamColor(hex,false); } }
+    function streamColor(hex, commit){ const s = ensureSocket(); if(!s || s.readyState!==1) return; const now = performance.now(); if(!commit){ if(now - lastSent < SEND_INTERVAL_MS || s.bufferedAmount > MAX_BUFFERED){ pendingHex = hex; requestAnimationFrame(flushPending); return; } }
+      try{ s.send(JSON.stringify({type: commit? 'commit':'update', color: hex, t: Date.now()})); lastSent = now; }catch(_){}
+    }
+
+    // ===================
+    // Swatches + Toast
+    // ===================
+    function showToast(msg){ const toast=document.getElementById("toast"); toast.textContent=msg; toast.hidden=false; toast.classList.add("show"); clearTimeout(showToast._t); showToast._t=setTimeout(()=>toast.classList.remove("show"),1100); }
+    document.getElementById("toast").addEventListener("transitionend",e=>{ const t=e.currentTarget; if(!t.classList.contains("show")) t.hidden=true; });
+    document.getElementById("colors").addEventListener("click",e=>{ const sw=e.target.closest(".swatch"); if(!sw) return; const hx=sw.querySelector(".hex"); const text=hx&&hx.textContent.trim(); if(!text) return; if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(()=>showToast(`Copied ${text}`)).catch(()=>showToast("Copy failed")); } else { const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); showToast(`Copied ${text}`); }catch{ showToast("Copy failed"); } document.body.removeChild(ta); } });
+
+    // ===================
+    // Copy image to clipboard / share (mobile-friendly)
+    // ===================
+    async function copyImageToClipboard(){
+      const cnv = document.getElementById('cnv');
+      if(!cnv) return;
+      const blob = await new Promise(res=> cnv.toBlob(res, 'image/png'));
+      if(!blob){ showToast('Copy failed'); return; }
+      // Try Clipboard API with image support
+      try{
+        if(navigator.clipboard && window.ClipboardItem){
+          const item = new ClipboardItem({ [blob.type]: blob });
+          await navigator.clipboard.write([item]);
+          showToast('Image copied to clipboard');
+          return;
+        }
+      }catch(e){ /* fall through */ }
+      // Try Web Share (mobile)
+      try{
+        if(navigator.canShare && navigator.share){
+          const file = new File([blob], 'palette.png', { type: blob.type });
+          await navigator.share({ files: [file], title: 'Palette image' });
+          showToast('Share opened');
+          return;
+        }
+      }catch(e){ /* fall through */ }
+      // Fallback: download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'palette.png';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Downloaded image');
+    }
+
+    // Bind copy button
+    (function(){
+      const btn = document.getElementById('copyImageBtn');
+      if(btn){ btn.addEventListener('click', copyImageToClipboard); }
+    })();
+
+    // ===================
+    // Inputs -> render (coalesced per frame)
+    // ===================
+    ["hexInput","size","tile","radius"].forEach(id=>{ document.getElementById(id).addEventListener("input",()=>{ scheduleRender(); paintWheel(); syncAdvancedControlsFromHex(); }); });
+
+    // ===================
+    // Boot
+    // ===================
+    scheduleRender();
+    bindWheel();
+    buildWheelImage();
+    paintWheel();
+    bindAdvanced();
+    syncAdvancedControlsFromHex();
+
   </script>
 </body>
 </html>
